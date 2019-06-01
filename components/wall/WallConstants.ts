@@ -1,0 +1,18 @@
+export const wallList: string[] = [
+	'cornerBottomLeft',
+	'cornerBottomRight',
+	'cornerTopLeft',
+	'cornerTopRight',
+	'horizontalCenter',
+	'horizontalLeft',
+	'horizontalRight',
+	'plus',
+	'single',
+	'tBottom',
+	'tLeft',
+	'tRight',
+	'tTop',
+	'verticalBottom',
+	'verticalCenter',
+	'verticalTop',
+];

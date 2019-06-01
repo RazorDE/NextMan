@@ -1,0 +1,10 @@
+# build
+.next/
+build/
+node_modules/
+
+# 3rd party images
+static/images/*.png
+
+# Misc
+Thumbs.db
