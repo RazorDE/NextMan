@@ -4,7 +4,8 @@ build/
 node_modules/
 
 # 3rd party images
-static/images/*.png
+static/images/chompermazetiles.png
+static/images/chompersprites.png
 
 # Misc
 Thumbs.db

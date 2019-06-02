@@ -1,6 +1,7 @@
-import { tileSize } from '../../constants';
+import { ICSSPosition } from '../../interfaces';
 import React from 'react';
 import { css } from 'emotion';
+import Util from '../../Util';
 import styles from './CollectableStyles';
 
 interface IProps {
@@ -8,11 +9,10 @@ interface IProps {
 	y: number;
 }
 
-export default function Wall(props: IProps): JSX.Element | null {
-	const left: string = (props.x * tileSize.x).toString() + 'px';
-	const top: string = (props.y * tileSize.y).toString() + 'px';
+export default function Collectable(props: IProps): JSX.Element | null {
+	const inlineStyle: ICSSPosition = Util.convertXYToCSSPosition(props.x, props.y);
 
 	return (
-		<div className={css(styles.fruit)} style={{left, top}}/>
+		<div className={css(styles.fruit)} style={inlineStyle}/>
 	);
 }

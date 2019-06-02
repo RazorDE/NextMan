@@ -22,7 +22,7 @@ Gamescreen.getInitialProps = async ({ req, query }: NextPageContext): Promise<IP
 
 	if (ad !== undefined && typeof ad === 'string' && ad.length > 0) {
 		try {
-			actorDirectionIdList = JSON.parse(`[${ad}]`);
+			actorDirectionIdList = JSON.parse(`[${ad.split('-').join(',')}]`);
 		} catch (error) {
 			if (req === undefined && window.console !== undefined) {
 				window.console.log(`Invalid actorDirectionIdList: ${query.ad}`);
@@ -32,7 +32,7 @@ Gamescreen.getInitialProps = async ({ req, query }: NextPageContext): Promise<IP
 
 	if (ap !== undefined && typeof ap === 'string' && ap.length > 0) {
 		try {
-			actorTileIdList = JSON.parse(`[${ap}]`);
+			actorTileIdList = JSON.parse(`[${ap.split('-').join(',')}]`);
 		} catch (error) {
 			if (req === undefined && window.console !== undefined) {
 				window.console.log(`Invalid actorTileIdList: ${query.ap}`);
@@ -42,7 +42,7 @@ Gamescreen.getInitialProps = async ({ req, query }: NextPageContext): Promise<IP
 
 	if (c !== undefined && typeof c === 'string' && c.length > 0) {
 		try {
-			collectedIdList = JSON.parse(`[${c}]`);
+			collectedIdList = JSON.parse(`[${c.split('-').join(',')}]`);
 		} catch (error) {
 			if (req === undefined && window.console !== undefined) {
 				window.console.log(`Invalid collectedIdList: ${query.c}`);

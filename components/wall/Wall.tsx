@@ -1,7 +1,8 @@
-import { tileSize } from '../../constants';
+import { ICSSPosition } from '../../interfaces';
 import { wallList } from './WallConstants';
 import React from 'react';
 import { css } from 'emotion';
+import Util from '../../Util';
 import styles from './WallStyles';
 
 interface IProps {
@@ -18,10 +19,9 @@ export default function Wall(props: IProps): JSX.Element | null {
 		return null;
 	}
 
-	const left: string = (props.x * tileSize.x).toString() + 'px';
-	const top: string = (props.y * tileSize.y).toString() + 'px';
+	const inlineStyle: ICSSPosition = Util.convertXYToCSSPosition(props.x, props.y);
 
 	return (
-		<div id={id} className={css(styles[name])} style={{left, top}}/>
+		<div id={id} className={css(styles[name])} style={inlineStyle}/>
 	);
 }

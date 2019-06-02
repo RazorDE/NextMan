@@ -1,34 +1,36 @@
-import { tileSize } from '../../constants';
-import { actorList, directionList } from './ActorConstants';
+import { directionList } from '../../constants';
+import { ICSSPosition } from '../../interfaces';
+import { actorList } from './ActorConstants';
 import React from 'react';
 import { css } from 'emotion';
+import Util from '../../Util';
 import styles from './ActorStyles';
 
 interface IProps {
-	direction: number;
 	id: number;
+	lookDirection: number;
+	moveDirection?: number;
 	x: number;
 	y: number;
 }
 
 export default function Actor(props: IProps): JSX.Element | null {
-	const actorName: string = actorList[props.id];
-	const directionName: string = directionList[props.direction];
+	const actorId: string = actorList[props.id];
+	const directionId: string = directionList[props.lookDirection];
 
 	if (
-		actorName === undefined ||
-		actorName.length < 1 ||
-		directionName === undefined ||
-		directionName.length < 1
+		actorId === undefined ||
+		actorId.length < 1 ||
+		directionId === undefined ||
+		directionId.length < 1
 	) {
 		return null;
 	}
 
-	const left: string = (props.x * tileSize.x).toString() + 'px';
-	const name: string = actorName + directionName;
-	const top: string = (props.y * tileSize.y).toString() + 'px';
+	const inlineStyle: ICSSPosition = Util.convertXYToCSSPosition(props.x, props.y);
+	const styleId: string = actorId + directionId;
 
 	return (
-		<div className={css(styles[name])} style={{left, top}}/>
+		<div className={css(styles[styleId])} style={inlineStyle}/>
 	);
 }

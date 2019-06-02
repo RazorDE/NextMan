@@ -1,6 +1,6 @@
-import { tileSize } from '../../constants';
+import { directionList, tileSize } from '../../constants';
 import { IStyles } from '../../interfaces';
-import { actorList, actorPositionXList, actorPositionYList, directionList } from './ActorConstants';
+import { actorList, actorPositionXList, actorPositionYList } from './ActorConstants';
 import { CSSObject } from '@emotion/core';
 
 const labelPrefix: string = 'actor-';

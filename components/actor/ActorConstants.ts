@@ -22,10 +22,3 @@ export const actorPositionYList: string[] = [
 	'0',
 	'-96px'
 ];
-
-export const directionList: string[] = [
-	'Down',
-	'Left',
-	'Right',
-	'Up',
-];

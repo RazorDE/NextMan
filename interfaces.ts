@@ -1,5 +1,14 @@
 import { CSSObject } from "@emotion/css";
 
+export interface ICoordinates {
+	[key: string]: boolean;
+}
+
+export interface ICSSPosition {
+	left: string;
+	top: string;
+}
+
 export interface IGameState {
 	actorDirectionIdList: number[];
 	actorTileIdList: number[];
@@ -15,7 +24,8 @@ export interface ILevelData {
 }
 
 export interface ILevelDataActor extends ILevelDataWall {
-	d: number;
+	ld: number;
+	md?: number;
 }
 
 export interface ILevelDataWall extends IPoint {
