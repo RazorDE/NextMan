@@ -1,7 +1,7 @@
 import React from 'react';
 import { directionList } from '../../constants';
 import { EDirections } from '../../enums';
-import { ICoordinates, IGameState, ILevelData, ILevelDataActor, IPoint } from '../../interfaces';
+import { ICoordinates, IGameState, ILevelData, ILevelDataActor, ITileXY } from '../../interfaces';
 import Actor from '../actor/Actor';
 import Collectable from '../collectable/Collectable';
 import Wall from '../wall/Wall';
@@ -21,7 +21,15 @@ interface IProps {
 }
 
 export default function PlayingField({ gameState }: IProps): JSX.Element {
-	const { actorList, collectableList, wallList } = getLevelDataFromGameState(gameState);
+	let collectedIdList: number[] = [];
+	let levelData: ILevelData = initialLevelData;
+
+	if (isGameStateValid(gameState)) {
+		levelData = getCurrentLevelDataFromGameState(gameState);
+		collectedIdList = addCollectedToList(gameState.collectedIdList, levelData.actorList[0]);
+	}
+
+	const { actorList, collectableList, wallList } = levelData;
 	const actorCoordinates: ICoordinates = getCoordinates(actorList);
 	const actorTileIdList: number[] = getQueryParametersFromList(actorList);
 	const directionNPCQuery: number[] = assembleNPCDirectionQuery(actorList, wallCoordinates);
@@ -52,7 +60,7 @@ export default function PlayingField({ gameState }: IProps): JSX.Element {
 	const navigationControls: JSX.Element | null = isPlayerAlive(actorList, playerDirectionList) ? (
 		<NavigationControls
 			actorTileIdList={actorTileIdList}
-			collectedIdList={gameState.collectedIdList}
+			collectedIdList={collectedIdList}
 			directionNPCQuery={directionNPCQuery}
 			playerDirectionList={playerDirectionList}
 			playerTileIdList={playerTileIdList}
@@ -71,6 +79,33 @@ export default function PlayingField({ gameState }: IProps): JSX.Element {
 	);
 }
 
+function addCollectedToList(collectedIdList: number[], player: ILevelDataActor): number[] {
+	const modifiedCollectedIdList = JSON.parse(JSON.stringify(collectedIdList));
+	const { collectableList } = initialLevelData;
+
+	// If the player is over a fruit get its ID and add it to the collection
+	for (let i = 0, lengthI = collectableList.length; i < lengthI; i++) {
+		if (player.x === collectableList[i].x && player.y === collectableList[i].y) {
+			let isAlreadyIncluded = false;
+
+			for (let j = 0, lengthJ = modifiedCollectedIdList.length; j < lengthJ; j++) {
+				if (modifiedCollectedIdList[j] === i) {
+					isAlreadyIncluded = true;
+					break;
+				}
+			}
+
+			if (!isAlreadyIncluded) {
+				modifiedCollectedIdList.push(i);
+			}
+
+			break;
+		}
+	}
+
+	return modifiedCollectedIdList;
+}
+
 function assembleNPCDirectionQuery(actorList: ILevelDataActor[], wallCoordinates: ICoordinates): number[] {
 	const directionQuery: number[] = [];
 
@@ -82,65 +117,72 @@ function assembleNPCDirectionQuery(actorList: ILevelDataActor[], wallCoordinates
 	return directionQuery;
 }
 
-function getLevelDataFromGameState(gameState: IGameState): ILevelData {
+function getCurrentLevelDataFromGameState(gameState: IGameState): ILevelData {
 	const levelData: ILevelData = JSON.parse(JSON.stringify(initialLevelData));
+	const { actorList, collectableList } = levelData;
+	const { actorDirectionIdList, actorTileIdList } = gameState;
+	const collectedIdList: number[] = JSON.parse(JSON.stringify(gameState.collectedIdList));
+	const player: ILevelDataActor = actorList[0];
 
-	if (isGameStateValid(gameState)) {
-		const { actorList, collectableList } = levelData;
-		const { actorDirectionIdList, actorTileIdList } = gameState;
-		const collectedIdList: number[] = JSON.parse(JSON.stringify(gameState.collectedIdList));
-		const player: ILevelDataActor = actorList[0];
+	// Overwrite the cloned initial with the current actor directions and positions
+	for (let i = 0, lengthI = actorDirectionIdList.length; i < lengthI; i++) {
+		const actorData: ILevelDataActor = actorList[i];
 
-		// Update actor positions
-		for (let i = 0, lengthI = actorTileIdList.length; i < lengthI; i++) {
-			const actorData: ILevelDataActor = actorList[i];
-
-			if (actorData !== undefined) {
-				const newPoint: IPoint = Util.getPointFromTileId(actorTileIdList[i], levelWidth);
-				actorData.x = newPoint.x;
-				actorData.y = newPoint.y;
-			}
+		if (actorData !== undefined) {
+			const previousPosition: ITileXY = Util.convertTileIdToTileXY(actorTileIdList[i], levelWidth);
+			const direction: number = actorDirectionIdList[i];
+			actorData.md = direction;
+			actorData.ld = direction;
+			actorData.x = previousPosition.x + (
+				direction === EDirections.LEFT ? -1 : (direction === EDirections.RIGHT ? 1 : 0)
+			);
+			actorData.y = previousPosition.y + (
+				direction === EDirections.UP ? -1 : (direction === EDirections.DOWN ? 1 : 0)
+			);
 		}
+	}
 
-		// Update actor look and move directions
-		for (let i = 0, lengthI = actorDirectionIdList.length; i < lengthI; i++) {
-			const actorData: ILevelDataActor = actorList[i];
-
-			if (actorData !== undefined) {
-				actorData.ld = actorDirectionIdList[i];
-				actorData.md = actorData.ld;
-			}
+	// If the player is over a fruit get its ID and add it to the collection
+	for (let i = 0, lengthI = collectableList.length; i < lengthI; i++) {
+		if (player.x === collectableList[i].x && player.y === collectableList[i].y) {
+			collectedIdList.push(i);
 		}
+	}
 
+	if (collectedIdList.length > 1) {
 		collectedIdList.sort((a, b) => b - a);
 
-		// Remove collected fruits
-		for (let i = 0, lengthI = collectedIdList.length; i < lengthI; i++) {
-			const id: number = collectedIdList[i];
+		// Remove duplicates
+		let i = 1;
+		let lengthI = collectedIdList.length;
 
-			if (collectableList[id] !== undefined) {
-				collectableList.splice(id, 1);
+		while (i < lengthI) {
+			if (collectedIdList[i - 1] !== collectedIdList[i]) {
+				i++;
+			} else {
+				collectedIdList.splice(i, 1);
+				lengthI--;
 			}
 		}
+	}
 
-		// Remove fruit on player's position and add it to the collected list
-		for (let i = 0, lengthI = collectableList.length; i < lengthI; i++) {
-			if (player.x === collectableList[i].x && player.y === collectableList[i].y) {
-				gameState.collectedIdList.push(i);
-				collectableList.splice(i, 1);
-				break;
-			}
+	// Remove the collected fruits from the cloned list
+	for (let i = 0, lengthI = collectedIdList.length; i < lengthI; i++) {
+		const id: number = collectedIdList[i];
+
+		if (collectableList[id] !== undefined) {
+			collectableList.splice(id, 1);
 		}
 	}
 
 	return levelData;
 }
 
-function getCoordinates(list: IPoint[]): ICoordinates {
+function getCoordinates(list: ITileXY[]): ICoordinates {
 	const coordinates: ICoordinates = {};
 
 	for (let i = 0, lengthI = list.length; i < lengthI; i++) {
-		const { x, y }: IPoint = list[i];
+		const { x, y }: ITileXY = list[i];
 		coordinates[`${x}-${y}`] = true;
 	}
 
@@ -172,7 +214,7 @@ function getPossibleTileIdList(playerTileId: number, playerDirectionList: number
 	return possibleTileIdList;
 }
 
-function getPossibleDirectionList(tile: IPoint, coordinates: ICoordinates): number[] {
+function getPossibleDirectionList(tile: ITileXY, coordinates: ICoordinates): number[] {
 	const { x, y } = tile;
 
 	const directionList: number[] = [];
@@ -196,11 +238,11 @@ function getPossibleDirectionList(tile: IPoint, coordinates: ICoordinates): numb
 	return directionList;
 }
 
-function getQueryParametersFromList(list: IPoint[]): number[] {
+function getQueryParametersFromList(list: ITileXY[]): number[] {
 	const parameterList: number[] = [];
 
 	for (let i = 0, lengthI = list.length; i < lengthI; i++) {
-		parameterList.push(Util.getTileIdFromPoint(list[i], levelWidth));
+		parameterList.push(Util.convertTileXYToTileId(list[i], levelWidth));
 	}
 
 	return parameterList;
@@ -208,33 +250,39 @@ function getQueryParametersFromList(list: IPoint[]): number[] {
 
 function isGameStateValid(gameState: IGameState): boolean {
 	const { actorDirectionIdList, actorTileIdList, collectedIdList } = gameState;
-	let isValid: boolean = true;
+	let isValid: boolean = actorDirectionIdList.length === actorTileIdList.length;
 
-	for (let i = 0, lengthI = actorDirectionIdList.length; i < lengthI; i++) {
-		const directionId: number = actorDirectionIdList[i];
+	if (isValid) {
+		for (let i = 0, lengthI = actorDirectionIdList.length; i < lengthI; i++) {
+			const directionId: number = actorDirectionIdList[i];
 
-		if (
-			typeof directionId !== 'number' || directionId < 0 || directionId > maxDirectionId) {
-			isValid = false;
-			break;
+			if (
+				typeof directionId !== 'number' || directionId < 0 || directionId > maxDirectionId) {
+				isValid = false;
+				break;
+			}
 		}
 	}
 
-	for (let i = 0, lengthI = actorTileIdList.length; i < lengthI; i++) {
-		const actorTileId: number = actorTileIdList[i];
+	if (isValid) {
+		for (let i = 0, lengthI = actorTileIdList.length; i < lengthI; i++) {
+			const actorTileId: number = actorTileIdList[i];
 
-		if (typeof actorTileId !== 'number' || actorTileId < 0 || actorTileId > maxTileId) {
-			isValid = false;
-			break;
+			if (typeof actorTileId !== 'number' || actorTileId < 0 || actorTileId > maxTileId) {
+				isValid = false;
+				break;
+			}
 		}
 	}
 
-	for (let i = 0, lengthI = collectedIdList.length; i < lengthI; i++) {
-		const collectedId: number = collectedIdList[i];
+	if (isValid) {
+		for (let i = 0, lengthI = collectedIdList.length; i < lengthI; i++) {
+			const collectedId: number = collectedIdList[i];
 
-		if (typeof collectedId !== 'number' || collectedId < 0 || collectedId > maxCollectableId) {
-			isValid = false;
-			break;
+			if (typeof collectedId !== 'number' || collectedId < 0 || collectedId > maxCollectableId) {
+				isValid = false;
+				break;
+			}
 		}
 	}
 

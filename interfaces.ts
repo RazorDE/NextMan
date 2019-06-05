@@ -17,8 +17,8 @@ export interface IGameState {
 
 export interface ILevelData {
 	actorList: ILevelDataActor[];
-	collectableList: IPoint[];
-	size: IPoint;
+	collectableList: ITileXY[];
+	size: ITileXY;
 	wallList: ILevelDataWall[];
 	width: number;
 }
@@ -28,11 +28,11 @@ export interface ILevelDataActor extends ILevelDataWall {
 	md?: number;
 }
 
-export interface ILevelDataWall extends IPoint {
+export interface ILevelDataWall extends ITileXY {
 	id: number;
 }
 
-export interface IPoint {
+export interface ITileXY {
 	x: number;
 	y: number;
 }
