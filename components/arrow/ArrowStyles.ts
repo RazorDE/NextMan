@@ -1,6 +1,6 @@
-import { tileSize } from '../../constants';
+import { tileSize } from '../../shared/constants';
+import { IStyles } from '../../shared/interfaces';
 import { CSSObject } from '@emotion/core';
-import { IStyles } from '../../interfaces';
 
 const labelPrefix: string = 'arrow-';
 

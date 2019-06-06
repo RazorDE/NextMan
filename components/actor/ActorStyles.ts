@@ -1,6 +1,11 @@
-import { directionList, tileSize } from '../../constants';
-import { IStyles } from '../../interfaces';
-import { actorList, actorPositionXList, actorPositionYList } from './ActorConstants';
+import {
+	actorList,
+	actorPositionXList,
+	actorPositionYList,
+	directionList,
+	tileSize,
+} from '../../shared/constants';
+import { IStyles } from '../../shared/interfaces';
 import { CSSObject } from '@emotion/core';
 
 const labelPrefix: string = 'actor-';

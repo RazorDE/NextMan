@@ -1,14 +1,12 @@
 import { CSSObject } from '@emotion/core';
 
-const labelPrefix: string = 'index-';
+const labelPrefix: string = 'home-';
 
 const container: CSSObject = {
 	label: labelPrefix + 'container',
-	backgroundColor: '#eee',
-	paddingBottom: '20px',
-	paddingTop: '20px',
+	color: '#fff',
 };
 
 export default {
 	container,
-}
+};

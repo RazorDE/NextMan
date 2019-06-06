@@ -9,12 +9,6 @@ export interface ICSSPosition {
 	top: string;
 }
 
-export interface IGameState {
-	actorDirectionIdList: number[];
-	actorTileIdList: number[];
-	collectedIdList: number[];
-}
-
 export interface ILevelData {
 	actorList: ILevelDataActor[];
 	collectableList: ITileXY[];
@@ -24,8 +18,7 @@ export interface ILevelData {
 }
 
 export interface ILevelDataActor extends ILevelDataWall {
-	ld: number;
-	md?: number;
+	d: number;
 }
 
 export interface ILevelDataWall extends ITileXY {

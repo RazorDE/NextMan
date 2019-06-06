@@ -1,7 +1,7 @@
-import { ICSSPosition } from '../../interfaces';
+import { convertXYToCSSPosition } from '../../shared/conversions';
+import { ICSSPosition } from '../../shared/interfaces';
 import React from 'react';
 import { css } from 'emotion';
-import Util from '../../Util';
 import styles from './CollectableStyles';
 
 interface IProps {
@@ -10,9 +10,9 @@ interface IProps {
 }
 
 export default function Collectable(props: IProps): JSX.Element | null {
-	const inlineStyle: ICSSPosition = Util.convertXYToCSSPosition(props.x, props.y);
+	const inlineStyle: ICSSPosition = convertXYToCSSPosition(props.x, props.y);
 
 	return (
-		<div className={css(styles.fruit)} style={inlineStyle}/>
+		<div className={css(styles.collectable)} style={inlineStyle}/>
 	);
 }

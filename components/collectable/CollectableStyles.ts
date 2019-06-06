@@ -1,10 +1,10 @@
-import { tileSize } from '../../constants';
+import { tileSize } from '../../shared/constants';
 import { CSSObject } from '@emotion/core';
 
 const labelPrefix: string = 'collectable-';
 
-const fruit: CSSObject = {
-	label: labelPrefix + 'fruit',
+const collectable: CSSObject = {
+	label: labelPrefix + 'collectable',
 	backgroundImage: 'url(/static/images/chompermazetiles.png)',
 	backgroundPositionX: '-288px',
 	backgroundPositionY: '-64px',
@@ -14,5 +14,5 @@ const fruit: CSSObject = {
 }
 
 export default {
-	fruit,
+	collectable,
 };

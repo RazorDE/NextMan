@@ -1,11 +1,11 @@
-import { directionList, keyCodes } from '../../constants';
-import { ICSSPosition } from '../../interfaces';
+import { directionList, keyCodes } from '../../shared/constants';
+import { convertObjectToQueryString, convertXYToCSSPosition } from '../../shared/conversions';
+import { ICSSPosition } from '../../shared/interfaces';
 import { ParsedUrlQueryInput } from 'querystring';
 import React from 'react';
 import { css } from 'emotion';
 import Link from 'next/link';
 import Router from 'next/router';
-import Util from '../../Util';
 import styles from './ArrowStyles';
 
 interface IProps {
@@ -30,9 +30,9 @@ export default class Arrow extends React.Component<IProps> {
 	public render(): JSX.Element {
 		const { props } = this;
 		const directionId: number = props.actorDirectionIdList[0];
+		const inlineStyle: ICSSPosition = convertXYToCSSPosition(props.x, props.y);
 		const query: ParsedUrlQueryInput = this.getQuery(props);
 		const styleId: string = `arrow${directionList[directionId]}`;
-		const inlineStyle: ICSSPosition = Util.convertXYToCSSPosition(props.x, props.y);
 
 		return (
 			<Link href={{
@@ -70,7 +70,7 @@ export default class Arrow extends React.Component<IProps> {
 		const directionId: number = props.actorDirectionIdList[0];
 
 		if (event.keyCode === keyCodes[directionId]) {
-			const url: string = `/gamescreen${Util.convertObjectToQueryString(this.getQuery(props))}`;
+			const url: string = `/gamescreen${convertObjectToQueryString(this.getQuery(props))}`;
 			Router.push(url);
 		}
 	}
