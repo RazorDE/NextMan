@@ -12,7 +12,7 @@ import React from 'react';
 import { css } from 'emotion';
 import Actor from '../actor/Actor';
 import Collectable from '../collectable/Collectable';
-import NavigationControls from '../naivgationController/NavigationController';
+import NavigationControls from '../naivgationControls/NavigationControls';
 import Wall from '../wall/Wall';
 import styles from './GamescreenStyles';
 

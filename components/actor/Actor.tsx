@@ -18,7 +18,7 @@ interface IState {
 	animationTriggerId: number;
 }
 
-export default class Actor extends React.Component<IProps, IState> {
+export default class Actor extends React.PureComponent<IProps, IState> {
 	public componentDidMount(): void {
 		this.setState({ animationTriggerId: 0 });
 	}
