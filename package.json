@@ -1,18 +1,19 @@
 {
-	"author": {"name": "Walter Heil"},
+	"author": {
+		"name": "Walter Heil"
+	},
 	"dependencies": {
 		"@emotion/babel-preset-css-prop": "^10.0.9",
 		"@emotion/core": "^10.0.10",
 		"@emotion/styled": "^10.0.11",
 		"emotion": "^10.0.9",
 		"emotion-server": "^10.0.9",
-		"express": "^4.17.1",
-		"next": "^8.1.1-canary.40",
+		"next": "^8.1.1-canary.47",
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6"
 	},
 	"devDependencies": {
-		"@types/node": "^12.0.3",
+		"@types/node": "^12.0.7",
 		"@types/react": "^16.8.19",
 		"@types/react-dom": "^16.8.4",
 		"typescript": "^3.5.1"
@@ -21,10 +22,9 @@
 	"name": "next-man",
 	"scripts": {
 		"dev": "next",
-		"dev-server": "node server.js",
 		"build": "next build",
 		"start": "next start",
 		"type-check": "tsc"
 	},
-	"version": "0.0.1"
+	"version": "0.0.2"
 }

@@ -5,6 +5,7 @@ import Arrow from '../arrow/Arrow';
 interface IProps {
 	actorTileIdList: number[];
 	collectedIdList: number[];
+	isDelayed: boolean;
 	npcDirectionIdList: number[];
 	playerDirectionIdList: number[];
 	x: number;
@@ -22,14 +23,13 @@ export default function NavigationControls(props: IProps): JSX.Element {
 			actorDirectionIdList={actorDirectionIdList}
 			actorTileIdList={props.actorTileIdList}
 			collectedIdList={props.collectedIdList}
+			isDelayed={props.isDelayed}
 			key={index}
 			x={x}
 			y={y}
 		/>;
 	});
 
-	return <div>
-		{navigationArrowList}
-	</div>
+	return <>{navigationArrowList}</>;
 }
 

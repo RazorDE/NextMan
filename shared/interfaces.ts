@@ -19,15 +19,15 @@ export interface ILevelData {
 
 export interface ILevelDataActor extends ILevelDataWall {
 	d: number;
+	isMoving?: boolean;
 }
 
 export interface ILevelDataWall extends ITileXY {
 	id: number;
 }
 
-export interface ITileXY {
-	x: number;
-	y: number;
+export interface ISettings {
+	animationDuration: number;
 }
 
 export interface IStyles {
@@ -35,6 +35,11 @@ export interface IStyles {
 }
 
 export interface ITileSize {
+	x: number;
+	y: number;
+}
+
+export interface ITileXY {
 	x: number;
 	y: number;
 }

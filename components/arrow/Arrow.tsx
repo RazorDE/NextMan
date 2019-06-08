@@ -12,27 +12,57 @@ interface IProps {
 	actorDirectionIdList: number[];
 	actorTileIdList: number[];
 	collectedIdList: number[];
+	isDelayed: boolean;
 	x: number;
 	y: number;
 }
 
-export default class Arrow extends React.Component<IProps> {
+interface IState {
+	animationTriggerId: number;
+	isInteractive: boolean;
+}
+
+export default class Arrow extends React.PureComponent<IProps, IState> {
 
 	public componentDidMount(): void {
-		this.handleKeypress = this.handleKeypress.bind(this);
-		window.addEventListener('keydown', this.handleKeypress);
+		const { props } = this;
+		this.setState({
+			animationTriggerId: 0,
+			isInteractive: !props.isDelayed
+		});
+
+		if (props.isDelayed) {
+			window.setTimeout(() => this.setState({isInteractive: true}), 500);
+		}
+
+		this.handleKeydown = this.handleKeydown.bind(this);
+		window.addEventListener('keydown', this.handleKeydown);
+	}
+
+	public componentDidUpdate(prevProps: IProps): void {
+		const { props, state } = this;
+
+		if (props !== prevProps) {
+			this.setState({
+				animationTriggerId: (state.animationTriggerId + 1) % 2,
+				isInteractive: false,
+			});
+
+			window.setTimeout(() => this.setState({isInteractive: true}), 500);
+		}
 	}
 
 	public componentWillUnmount(): void {
-		window.removeEventListener('keydown', this.handleKeypress);
+		window.removeEventListener('keydown', this.handleKeydown);
 	}
 
 	public render(): JSX.Element {
-		const { props } = this;
+		const { props, state } = this;
+		const animationTriggerId = state !== null ? state.animationTriggerId : 0;
 		const directionId: number = props.actorDirectionIdList[0];
 		const inlineStyle: ICSSPosition = convertXYToCSSPosition(props.x, props.y);
 		const query: ParsedUrlQueryInput = this.getQuery(props);
-		const styleId: string = `arrow${directionList[directionId]}`;
+		const styleId: string = `arrow${directionList[directionId]}${props.isDelayed ? `Delayed${animationTriggerId}` : ''}`;
 
 		return (
 			<Link href={{
@@ -65,8 +95,13 @@ export default class Arrow extends React.Component<IProps> {
 		return query;
 	}
 
-	private handleKeypress(event: KeyboardEvent) {
-		const { props } = this;
+	private handleKeydown(event: KeyboardEvent): void {
+		const { props, state } = this;
+
+		if (!state.isInteractive) {
+			return;
+		}
+
 		const directionId: number = props.actorDirectionIdList[0];
 
 		if (event.keyCode === keyCodes[directionId]) {

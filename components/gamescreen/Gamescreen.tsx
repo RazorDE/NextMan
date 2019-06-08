@@ -1,14 +1,21 @@
 import { directionList } from '../../shared/constants';
 import { convertTileIdToTileXY, convertTileXYToTileId } from '../../shared/conversions';
 import { EDirections } from '../../shared/enums';
-import { ICoordinates, ILevelData, ILevelDataActor, ITileXY } from '../../shared/interfaces';
+import {
+	ICoordinates,
+	ILevelData,
+	ILevelDataActor,
+	ITileXY,
+} from '../../shared/interfaces';
+import initialLevelData from '../../shared/levelData';
 import React from 'react';
+import { css } from 'emotion';
 import Actor from '../actor/Actor';
 import Collectable from '../collectable/Collectable';
-import Wall from '../wall/Wall';
 import NavigationControls from '../naivgationController/NavigationController';
+import Wall from '../wall/Wall';
+import styles from './GamescreenStyles';
 
-const initialLevelData: ILevelData = require('../../static/json/level.json');
 const levelHeight: number = initialLevelData.size.y;
 const levelWidth: number = initialLevelData.size.x;
 const maxCollectableId: number = initialLevelData.collectableList.length - 1;
@@ -49,6 +56,7 @@ export default function Gamescreen(
 		<Actor
 			id={actor.id}
 			directionId={actor.d}
+			isMoving={actor.isMoving === true}
 			key={index}
 			x={actor.x}
 			y={actor.y}
@@ -63,6 +71,7 @@ export default function Gamescreen(
 		<NavigationControls
 			actorTileIdList={actorTileIdList}
 			collectedIdList={collectedIdList}
+			isDelayed={player.isMoving === true}
 			npcDirectionIdList={npcDirectionIdList}
 			playerDirectionIdList={playerDirectionIdList}
 			x={player.x}
@@ -75,40 +84,13 @@ export default function Gamescreen(
 	);
 
 	return (
-		<div>
+		<div className={css(styles.viewport)}>
 			{wallsElementList}
 			{collectableElementList}
 			{actorElementList}
 			{navigationControls}
 		</div>
 	);
-}
-
-function getCurrentCollectedIdList(collectedIdList: number[], player: ILevelDataActor): number[] {
-	const currentCollectedIdList = JSON.parse(JSON.stringify(collectedIdList));
-	const { collectableList } = initialLevelData;
-
-	// If the player is over a fruit get its ID and add it to the collection
-	for (let i = 0, lengthI = collectableList.length; i < lengthI; i++) {
-		if (player.x === collectableList[i].x && player.y === collectableList[i].y) {
-			let isAlreadyIncluded = false;
-
-			for (let j = 0, lengthJ = currentCollectedIdList.length; j < lengthJ; j++) {
-				if (currentCollectedIdList[j] === i) {
-					isAlreadyIncluded = true;
-					break;
-				}
-			}
-
-			if (!isAlreadyIncluded) {
-				currentCollectedIdList.push(i);
-			}
-
-			break;
-		}
-	}
-
-	return currentCollectedIdList;
 }
 
 function assembleNpcDirectionIdList(actorList: ILevelDataActor[], wallCoordinates: ICoordinates): number[] {
@@ -122,6 +104,33 @@ function assembleNpcDirectionIdList(actorList: ILevelDataActor[], wallCoordinate
 	return directionQuery;
 }
 
+function getCurrentCollectedIdList(collectedIdList: number[], player: ILevelDataActor): number[] {
+	const currentCollectedIdList = JSON.parse(JSON.stringify(collectedIdList));
+	const { collectableList } = initialLevelData;
+
+	// If the player is over a fruit get its ID and add it to the collection
+	for (let i = 0, lengthI = collectableList.length; i < lengthI; i++) {
+		if (player.x === collectableList[i].x && player.y === collectableList[i].y) {
+			let isAlreadyCollected = false;
+
+			for (let j = 0, lengthJ = currentCollectedIdList.length; j < lengthJ; j++) {
+				if (currentCollectedIdList[j] === i) {
+					isAlreadyCollected = true;
+					break;
+				}
+			}
+
+			if (!isAlreadyCollected) {
+				currentCollectedIdList.push(i);
+			}
+
+			break;
+		}
+	}
+
+	return currentCollectedIdList;
+}
+
 function getCurrentLevelDataFromGameState(
 	actorDirectionIdList: number[],
 	actorTileIdList: number[],
@@ -129,8 +138,6 @@ function getCurrentLevelDataFromGameState(
 ): ILevelData {
 	const levelData: ILevelData = JSON.parse(JSON.stringify(initialLevelData));
 	const { actorList, collectableList } = levelData;
-	const currentCollectedIdList: number[] = JSON.parse(JSON.stringify(collectedIdList));
-	const player: ILevelDataActor = actorList[0];
 
 	// Overwrite the cloned initial actor directions and positions with the current ones
 	for (let i = 0, lengthI = actorDirectionIdList.length; i < lengthI; i++) {
@@ -140,6 +147,7 @@ function getCurrentLevelDataFromGameState(
 			const previousPosition: ITileXY = convertTileIdToTileXY(actorTileIdList[i], levelWidth);
 			const directionId: number = actorDirectionIdList[i];
 			actorData.d = directionId;
+			actorData.isMoving = true;
 			actorData.x = previousPosition.x + (
 				directionId === EDirections.LEFT ? -1 : (directionId === EDirections.RIGHT ? 1 : 0)
 			);
@@ -149,28 +157,10 @@ function getCurrentLevelDataFromGameState(
 		}
 	}
 
-	// If the player is over a collectable get its ID and add it to the collection
-	for (let i = 0, lengthI = collectableList.length; i < lengthI; i++) {
-		if (player.x === collectableList[i].x && player.y === collectableList[i].y) {
-			currentCollectedIdList.push(i);
-		}
-	}
+	const currentCollectedIdList: number[] = JSON.parse(JSON.stringify(collectedIdList));
 
 	if (currentCollectedIdList.length > 1) {
 		currentCollectedIdList.sort((a, b) => b - a);
-
-		// Remove duplicates
-		let i = 1;
-		let lengthI = currentCollectedIdList.length;
-
-		while (i < lengthI) {
-			if (currentCollectedIdList[i - 1] !== currentCollectedIdList[i]) {
-				i++;
-			} else {
-				currentCollectedIdList.splice(i, 1);
-				lengthI--;
-			}
-		}
 	}
 
 	// Remove the collectable from the cloned list

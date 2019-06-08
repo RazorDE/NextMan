@@ -8,10 +8,10 @@ interface IProps {
 	userAgent: string;
 }
 
-export default function Home(props: IProps): JSX.Element {
+export default function Home({ userAgent }: IProps): JSX.Element {
 	return (
 		<div className={css(styles.container)}>
-			{props.userAgent}
+			{userAgent}
 		</div>
 	);
 }
