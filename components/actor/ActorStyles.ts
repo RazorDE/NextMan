@@ -33,12 +33,8 @@ const sprite: CSSObject = {
 // an exact copy having a different label and thus a different name
 const animationDirectionDown0: CSSObject = {
 	label: '0',
-	from: {
-		transform: 'translateY(0)',
-	},
-	to: {
-		transform: `translateY(${tileSize.y}px)`,
-	},
+	from: { transform: 'translateY(0)' },
+	to: { transform: `translateY(${tileSize.y}px)` },
 };
 
 const animationDirectionDown1: CSSObject = {
@@ -48,12 +44,8 @@ const animationDirectionDown1: CSSObject = {
 
 const animationDirectionLeft0: CSSObject = {
 	label: '0',
-	from: {
-		transform: 'translateX(0)',
-	},
-	to: {
-		transform: `translateX(-${tileSize.x}px)`,
-	},
+	from: { transform: 'translateX(0)' },
+	to: { transform: `translateX(-${tileSize.x}px)` },
 };
 
 const animationDirectionLeft1: CSSObject = {
@@ -63,12 +55,8 @@ const animationDirectionLeft1: CSSObject = {
 
 const animationDirectionRight0: CSSObject = {
 	label: '0',
-	from: {
-		transform: 'translateX(0)',
-	},
-	to: {
-		transform: `translateX(${tileSize.x}px)`,
-	},
+	from: { transform: 'translateX(0)' },
+	to: { transform: `translateX(${tileSize.x}px)` },
 };
 
 const animationDirectionRight1: CSSObject = {
@@ -78,12 +66,8 @@ const animationDirectionRight1: CSSObject = {
 
 const animationDirectionUp0: CSSObject = {
 	label: '0',
-	from: {
-		transform: 'translateY(0)',
-	},
-	to: {
-		transform: `translateY(-${tileSize.y}px)`,
-	},
+	from: { transform: 'translateY(0)' },
+	to: { transform: `translateY(-${tileSize.y}px)` },
 };
 
 const animationDirectionUp1: CSSObject = {
@@ -98,12 +82,8 @@ for (let j = 0, lengthJ = directionList.length; j < lengthJ; j++) {
 			parseInt(actorPositionXList[i].substr(0, actorPositionXList[i].length - 2), 10) - 64;
 
 		const animationSprite: CSSObject = {
-			from: {
-				backgroundPositionX: actorPositionXList[i],
-			},
-			to: {
-				backgroundPositionX: `${targetPositionX}px`,
-			},
+			from: { backgroundPositionX: actorPositionXList[i] },
+			to: { backgroundPositionX: `${targetPositionX}px` },
 		};
 
 		const classNameMove: string = `${actorList[i]}${directionList[j]}`;

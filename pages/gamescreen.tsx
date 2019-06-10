@@ -16,6 +16,7 @@ export default function Gamescreen(
 			actorDirectionIdListInput={actorDirectionIdListInput}
 			actorTileIdListInput={actorTileIdListInput}
 			collectedIdListInput={collectedIdListInput}
+			hasJavaScript={typeof window !== 'undefined'}
 		/>);
 }
 

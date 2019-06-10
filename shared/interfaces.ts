@@ -4,6 +4,10 @@ export interface ICoordinates {
 	[key: string]: boolean;
 }
 
+export interface IDictionary {
+	[key: string]: string;
+}
+
 export interface ICSSPosition {
 	left: string;
 	top: string;

@@ -1,0 +1,10 @@
+{
+	"Gamescreen.gameOver": "GAME OVER",
+	"Gamescreen.gameWon": "CONGRATULATIONS! YOU'VE WON THE GAME",
+	"Gamescreen.starttextJavaScript": "Click an arrow button on the screen or the corresponsing arrow key",
+	"Gamescreen.starttextNoJavaScript": "Click an arrow button on the screen",
+	"Home.subtitle": "a small game using React and Next.js",
+	"Home.title": "Next Man",
+	"StartButton.restart": "TRY AGAIN",
+	"StartButton.start": "START"
+}

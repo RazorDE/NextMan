@@ -1,6 +1,7 @@
 import { directionList, keyCodes } from '../../shared/constants';
 import { convertObjectToQueryString, convertXYToCSSPosition } from '../../shared/conversions';
 import { ICSSPosition } from '../../shared/interfaces';
+import settings from '../../shared/settings';
 import { ParsedUrlQueryInput } from 'querystring';
 import React from 'react';
 import { css } from 'emotion';
@@ -19,20 +20,26 @@ interface IProps {
 
 interface IState {
 	animationTriggerId: number;
-	isInteractive: boolean;
+	isClickable: boolean;
 }
 
 export default class Arrow extends React.PureComponent<IProps, IState> {
 
+	constructor(props: IProps) {
+		super(props);
+
+		this.state = {
+			animationTriggerId: 0,
+			isClickable: !props.isDelayed,
+		}
+	}
+
 	public componentDidMount(): void {
 		const { props } = this;
-		this.setState({
-			animationTriggerId: 0,
-			isInteractive: !props.isDelayed
-		});
+		const { animationDuration } = settings;
 
 		if (props.isDelayed) {
-			window.setTimeout(() => this.setState({isInteractive: true}), 500);
+			window.setTimeout(() => this.setState({isClickable: true}), animationDuration);
 		}
 
 		this.handleKeydown = this.handleKeydown.bind(this);
@@ -41,14 +48,15 @@ export default class Arrow extends React.PureComponent<IProps, IState> {
 
 	public componentDidUpdate(prevProps: IProps): void {
 		const { props, state } = this;
+		const { animationDuration } = settings;
 
 		if (props !== prevProps) {
 			this.setState({
 				animationTriggerId: (state.animationTriggerId + 1) % 2,
-				isInteractive: false,
+				isClickable: false,
 			});
 
-			window.setTimeout(() => this.setState({isInteractive: true}), 500);
+			window.setTimeout(() => this.setState({isClickable: true}), animationDuration);
 		}
 	}
 
@@ -58,11 +66,11 @@ export default class Arrow extends React.PureComponent<IProps, IState> {
 
 	public render(): JSX.Element {
 		const { props, state } = this;
-		const animationTriggerId = state !== null ? state.animationTriggerId : 0;
 		const directionId: number = props.actorDirectionIdList[0];
 		const inlineStyle: ICSSPosition = convertXYToCSSPosition(props.x, props.y);
 		const query: ParsedUrlQueryInput = this.getQuery(props);
-		const styleId: string = `arrow${directionList[directionId]}${props.isDelayed ? `Delayed${animationTriggerId}` : ''}`;
+		const styleId: string =
+			`arrow${directionList[directionId]}${props.isDelayed ? `Delayed${state.animationTriggerId}` : ''}`;
 
 		return (
 			<Link href={{
@@ -98,7 +106,7 @@ export default class Arrow extends React.PureComponent<IProps, IState> {
 	private handleKeydown(event: KeyboardEvent): void {
 		const { props, state } = this;
 
-		if (!state.isInteractive) {
+		if (!state.isClickable) {
 			return;
 		}
 

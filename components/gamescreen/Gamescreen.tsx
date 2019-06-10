@@ -12,7 +12,9 @@ import React from 'react';
 import { css } from 'emotion';
 import Actor from '../actor/Actor';
 import Collectable from '../collectable/Collectable';
+import Message from '../message/Message';
 import NavigationControls from '../naivgationControls/NavigationControls';
+import StartButton from '../startButton/StartButton';
 import Wall from '../wall/Wall';
 import styles from './GamescreenStyles';
 
@@ -27,10 +29,11 @@ interface IProps {
 	actorDirectionIdListInput: number[];
 	actorTileIdListInput: number[];
 	collectedIdListInput: number[];
+	hasJavaScript: boolean;
 }
 
 export default function Gamescreen(
-	{ actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput }: IProps
+	{ actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput, hasJavaScript }: IProps
 ): JSX.Element {
 	let collectedIdList: number[] = [];
 	let levelData: ILevelData = initialLevelData;
@@ -51,11 +54,12 @@ export default function Gamescreen(
 	const obstacleCoordinates: ICoordinates = Object.assign({}, actorCoordinates, wallCoordinates);
 	const player: ILevelDataActor = actorList[0];
 	const playerDirectionIdList: number[] = getPossibleDirectionIdList(player, obstacleCoordinates);
+	const isAlive: boolean = isPlayerAlive(actorList, playerDirectionIdList);
 
 	const actorElementList: JSX.Element[] = actorList.map((actor, index) =>
 		<Actor
-			id={actor.id}
 			directionId={actor.d}
+			id={actor.id}
 			isMoving={actor.isMoving === true}
 			key={index}
 			x={actor.x}
@@ -67,7 +71,7 @@ export default function Gamescreen(
 		(collectable, index) => <Collectable key={index} x={collectable.x} y={collectable.y} />
 	);
 
-	const navigationControls: JSX.Element | null = isPlayerAlive(actorList, playerDirectionIdList) ? (
+	const navigationControlsElement: JSX.Element | null = isAlive ? (
 		<NavigationControls
 			actorTileIdList={actorTileIdList}
 			collectedIdList={collectedIdList}
@@ -79,6 +83,13 @@ export default function Gamescreen(
 		/>
 	) : null;
 
+	const restartButtonElement: JSX.Element | null = !isAlive || collectableList.length < 1
+		? (
+			<div className={css(styles.restartButtonContainer)}>
+				<StartButton isRestart={true}/>
+			</div>
+		) : null;
+
 	const wallsElementList: JSX.Element[] = wallList.map(
 		(actor, index) => <Wall id={actor.id} key={index} x={actor.x} y={actor.y} />
 	);
@@ -88,7 +99,14 @@ export default function Gamescreen(
 			{wallsElementList}
 			{collectableElementList}
 			{actorElementList}
-			{navigationControls}
+			{navigationControlsElement}
+			<Message
+				areCollectablesLeft={collectableList.length > 0}
+				hasJavaScript={hasJavaScript}
+				isInitialStep={player.isMoving !== true}
+				isPlayerAlive={isAlive}
+			/>
+			{restartButtonElement}
 		</div>
 	);
 }
@@ -276,10 +294,6 @@ function isPlayerAlive(actorList: ILevelDataActor[], directionList: number[]): b
 				break;
 			}
 		}
-	}
-
-	if (!isAlive) {
-		console.log('game over');
 	}
 
 	return isAlive;

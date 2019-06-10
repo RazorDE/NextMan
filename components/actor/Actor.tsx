@@ -7,8 +7,8 @@ import styles from './ActorStyles';
 import { EDirections } from '../../shared/enums';
 
 interface IProps {
-	id: number;
 	directionId: number;
+	id: number;
 	isMoving: boolean;
 	x: number;
 	y: number;
@@ -19,8 +19,9 @@ interface IState {
 }
 
 export default class Actor extends React.PureComponent<IProps, IState> {
-	public componentDidMount(): void {
-		this.setState({ animationTriggerId: 0 });
+	constructor(props: IProps) {
+		super(props);
+		this.state = { animationTriggerId: 0 };
 	}
 
 	public componentDidUpdate(prevProps: IProps): void {
@@ -46,7 +47,6 @@ export default class Actor extends React.PureComponent<IProps, IState> {
 			return null;
 		}
 
-		const animationTriggerId: number = state !== null ? state.animationTriggerId : 0;
 		const inlineStyle: ICSSPosition = props.isMoving
 			? convertXYToCSSPosition(
 				props.x + (props.directionId === EDirections.LEFT ? 1 : props.directionId === EDirections.RIGHT ? -1 : 0),
@@ -54,7 +54,8 @@ export default class Actor extends React.PureComponent<IProps, IState> {
 			)
 			: convertXYToCSSPosition(props.x, props.y);
 
-		const directionStyleId: string = 'direction' + (props.isMoving ? (directionName + animationTriggerId) : 'None');
+		const directionStyleId: string =
+			`direction${props.isMoving ? `${directionName}${state.animationTriggerId}` : 'None'}`;
 		const spriteStyleId: string = `${actorName}${directionName}`;
 
 		return (
