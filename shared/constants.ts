@@ -1,6 +1,6 @@
 import { ITileSize } from './interfaces';
 
-export const actorList: string[] = [
+export const actorList = [
 	'ghostCyan',
 	'ghostOrange',
 	'ghostPink',
@@ -9,7 +9,7 @@ export const actorList: string[] = [
 	'player',
 ];
 
-export const actorPositionXList: string[] = [
+export const actorPositionXList = [
 	'-192px',
 	'-64px',
 	'-128px',
@@ -18,18 +18,18 @@ export const actorPositionXList: string[] = [
 	'-320px',
 ];
 
-export const actorPositionYList: string[] = [
+export const actorPositionYList = [
 	'-32px',
 	'-64px',
 	'0',
 	'-96px'
 ];
 
-export const directionList: string[] = ['Down', 'Left',	'Right', 'Up'];
-export const keyCodes: number[] = [40, 37, 39, 38];
+export const directionList = ['Down', 'Left',	'Right', 'Up'];
+export const keyCodes = [40, 37, 39, 38];
 export const tileSize: ITileSize = {x: 32, y: 32};
 
-export const wallList: string[] = [
+export const wallList = [
 	'cornerBottomLeft',
 	'cornerBottomRight',
 	'cornerTopLeft',

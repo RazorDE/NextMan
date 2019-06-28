@@ -1,10 +1,12 @@
 import { directionList } from '../../shared/constants';
+import { setLanguage } from '../../shared/dictionary';
 import { convertTileIdToTileXY, convertTileXYToTileId } from '../../shared/conversions';
 import { EDirections } from '../../shared/enums';
 import {
 	ICoordinates,
 	ILevelData,
 	ILevelDataActor,
+	ILevelDataWall,
 	ITileXY,
 } from '../../shared/interfaces';
 import initialLevelData from '../../shared/levelData';
@@ -18,25 +20,28 @@ import StartButton from '../startButton/StartButton';
 import Wall from '../wall/Wall';
 import styles from './GamescreenStyles';
 
-const levelHeight: number = initialLevelData.size.y;
-const levelWidth: number = initialLevelData.size.x;
-const maxCollectableId: number = initialLevelData.collectableList.length - 1;
-const maxDirectionId: number = directionList.length - 1;
-const maxTileId: number = (initialLevelData.size.x * initialLevelData.size.y) - 1;
-const wallCoordinates: ICoordinates = getCoordinates(initialLevelData.wallList);
+const levelHeight = initialLevelData.size.y;
+const levelWidth = initialLevelData.size.x;
+const maxCollectableId = initialLevelData.collectableList.length - 1;
+const maxDirectionId = directionList.length - 1;
+const maxTileId = (initialLevelData.size.x * initialLevelData.size.y) - 1;
+const wallCoordinates = getCoordinates(initialLevelData.wallList);
 
-interface IProps {
-	actorDirectionIdListInput: number[];
-	actorTileIdListInput: number[];
-	collectedIdListInput: number[];
+type Props = Readonly<{
+	actorDirectionIdListInput: readonly number[];
+	actorTileIdListInput: readonly number[];
+	collectedIdListInput: readonly number[];
 	hasJavaScript: boolean;
-}
+	language?: string;
+}>;
 
 export default function Gamescreen(
-	{ actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput, hasJavaScript }: IProps
+	{ actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput, hasJavaScript, language }: Props
 ): JSX.Element {
 	let collectedIdList: number[] = [];
-	let levelData: ILevelData = initialLevelData;
+	let levelData = initialLevelData;
+
+	setLanguage(language);
 
 	if (isGameStateValid(actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput)) {
 		levelData = getCurrentLevelDataFromGameState(
@@ -48,15 +53,53 @@ export default function Gamescreen(
 	}
 
 	const { actorList, collectableList, wallList } = levelData;
-	const actorCoordinates: ICoordinates = getCoordinates(actorList);
-	const actorTileIdList: number[] = getQueryParametersFromList(actorList);
-	const npcDirectionIdList: number[] = assembleNpcDirectionIdList(actorList, wallCoordinates);
-	const obstacleCoordinates: ICoordinates = Object.assign({}, actorCoordinates, wallCoordinates);
-	const player: ILevelDataActor = actorList[0];
-	const playerDirectionIdList: number[] = getPossibleDirectionIdList(player, obstacleCoordinates);
-	const isAlive: boolean = isPlayerAlive(actorList, playerDirectionIdList);
+	const actorCoordinates = getCoordinates(actorList);
+	const actorTileIdList = getQueryParametersFromList(actorList);
+	const npcDirectionIdList = assembleNpcDirectionIdList(actorList, wallCoordinates);
+	const obstacleCoordinates = Object.assign({}, actorCoordinates, wallCoordinates);
+	const player = actorList[0];
+	const playerDirectionIdList = getPossibleDirectionIdList(player, obstacleCoordinates);
+	const isAlive = isPlayerAlive(actorList, playerDirectionIdList);
 
-	const actorElementList: JSX.Element[] = actorList.map((actor, index) =>
+	return (
+		<div className={css(styles.viewport)}>
+			<Walls wallList={wallList} />
+			<Collectables collectableList={collectableList} />
+			<Actors actorList={actorList} />
+			{isAlive ? (
+				<NavigationControls
+					actorTileIdList={actorTileIdList}
+					collectedIdList={collectedIdList}
+					isDelayed={player.isMoving === true}
+					language={language}
+					npcDirectionIdList={npcDirectionIdList}
+					playerDirectionIdList={playerDirectionIdList}
+					x={player.x}
+					y={player.y}
+				/>
+			) : null}
+			<Message
+				areCollectablesLeft={collectableList.length > 0}
+				hasJavaScript={hasJavaScript}
+				isInitialStep={player.isMoving !== true}
+				isPlayerAlive={isAlive}
+			/>
+			{isAlive && collectableList.length > 0
+				? null : (
+					<div className={css(styles.restartButtonContainer)}>
+						<StartButton isRestart={true} language={language} />
+					</div>
+				)}
+		</div>
+	);
+}
+
+interface IActorsProps {
+	actorList: ILevelDataActor[]
+};
+
+function Actors({ actorList }: IActorsProps): JSX.Element {
+	const actorElementList = actorList.map((actor, index) =>
 		<Actor
 			directionId={actor.d}
 			id={actor.id}
@@ -67,63 +110,46 @@ export default function Gamescreen(
 		/>
 	);
 
-	const collectableElementList: JSX.Element[] = collectableList.map(
+	return <>{actorElementList}</>
+}
+
+interface ICollectablesProps {
+	collectableList: ITileXY[];
+}
+
+function Collectables({ collectableList }: ICollectablesProps): JSX.Element {
+	const collectableElementList = collectableList.map(
 		(collectable, index) => <Collectable key={index} x={collectable.x} y={collectable.y} />
 	);
 
-	const navigationControlsElement: JSX.Element | null = isAlive ? (
-		<NavigationControls
-			actorTileIdList={actorTileIdList}
-			collectedIdList={collectedIdList}
-			isDelayed={player.isMoving === true}
-			npcDirectionIdList={npcDirectionIdList}
-			playerDirectionIdList={playerDirectionIdList}
-			x={player.x}
-			y={player.y}
-		/>
-	) : null;
+	return <>{collectableElementList}</>
+}
 
-	const restartButtonElement: JSX.Element | null = !isAlive || collectableList.length < 1
-		? (
-			<div className={css(styles.restartButtonContainer)}>
-				<StartButton isRestart={true}/>
-			</div>
-		) : null;
+interface IWallsProps {
+	wallList: ILevelDataWall[];
+}
 
-	const wallsElementList: JSX.Element[] = wallList.map(
-		(actor, index) => <Wall id={actor.id} key={index} x={actor.x} y={actor.y} />
+function Walls({ wallList }: IWallsProps): JSX.Element {
+	const wallsElementList = wallList.map(
+		(wall, index) => <Wall id={wall.id} key={index} x={wall.x} y={wall.y} />
 	);
 
-	return (
-		<div className={css(styles.viewport)}>
-			{wallsElementList}
-			{collectableElementList}
-			{actorElementList}
-			{navigationControlsElement}
-			<Message
-				areCollectablesLeft={collectableList.length > 0}
-				hasJavaScript={hasJavaScript}
-				isInitialStep={player.isMoving !== true}
-				isPlayerAlive={isAlive}
-			/>
-			{restartButtonElement}
-		</div>
-	);
+	return <>{wallsElementList}</>
 }
 
 function assembleNpcDirectionIdList(actorList: ILevelDataActor[], wallCoordinates: ICoordinates): number[] {
 	const directionQuery: number[] = [];
 
 	for (let i = 1, lengthI = actorList.length; i < lengthI; i++) {
-		const possibleDirectionIdList: number[] = getPossibleDirectionIdList(actorList[i], wallCoordinates);
+		const possibleDirectionIdList = getPossibleDirectionIdList(actorList[i], wallCoordinates);
 		directionQuery.push(possibleDirectionIdList[Math.floor(Math.random() * possibleDirectionIdList.length)]);
 	}
 
 	return directionQuery;
 }
 
-function getCurrentCollectedIdList(collectedIdList: number[], player: ILevelDataActor): number[] {
-	const currentCollectedIdList = JSON.parse(JSON.stringify(collectedIdList));
+function getCurrentCollectedIdList(collectedIdList: readonly number[], player: ILevelDataActor): number[] {
+	const currentCollectedIdList: number[] = JSON.parse(JSON.stringify(collectedIdList));
 	const { collectableList } = initialLevelData;
 
 	// If the player is over a fruit get its ID and add it to the collection
@@ -150,20 +176,20 @@ function getCurrentCollectedIdList(collectedIdList: number[], player: ILevelData
 }
 
 function getCurrentLevelDataFromGameState(
-	actorDirectionIdList: number[],
-	actorTileIdList: number[],
-	collectedIdList: number[]
+	actorDirectionIdList: readonly number[],
+	actorTileIdList: readonly number[],
+	collectedIdList: readonly number[]
 ): ILevelData {
 	const levelData: ILevelData = JSON.parse(JSON.stringify(initialLevelData));
 	const { actorList, collectableList } = levelData;
 
 	// Overwrite the cloned initial actor directions and positions with the current ones
 	for (let i = 0, lengthI = actorDirectionIdList.length; i < lengthI; i++) {
-		const actorData: ILevelDataActor = actorList[i];
+		const actorData = actorList[i];
 
 		if (actorData !== undefined) {
-			const previousPosition: ITileXY = convertTileIdToTileXY(actorTileIdList[i], levelWidth);
-			const directionId: number = actorDirectionIdList[i];
+			const previousPosition = convertTileIdToTileXY(actorTileIdList[i], levelWidth);
+			const directionId = actorDirectionIdList[i];
 			actorData.d = directionId;
 			actorData.isMoving = true;
 			actorData.x = previousPosition.x + (
@@ -183,7 +209,7 @@ function getCurrentLevelDataFromGameState(
 
 	// Remove the collectable from the cloned list
 	for (let i = 0, lengthI = currentCollectedIdList.length; i < lengthI; i++) {
-		const id: number = currentCollectedIdList[i];
+		const id = currentCollectedIdList[i];
 
 		if (collectableList[id] !== undefined) {
 			collectableList.splice(id, 1);
@@ -197,7 +223,7 @@ function getCoordinates(list: ITileXY[]): ICoordinates {
 	const coordinates: ICoordinates = {};
 
 	for (let i = 0, lengthI = list.length; i < lengthI; i++) {
-		const { x, y }: ITileXY = list[i];
+		const { x, y } = list[i];
 		coordinates[`${x}-${y}`] = true;
 	}
 
@@ -239,15 +265,15 @@ function getQueryParametersFromList(list: ITileXY[]): number[] {
 }
 
 function isGameStateValid(
-	actorDirectionIdList: number[],
-	actorTileIdList: number[],
-	collectedIdList: number[],
+	actorDirectionIdList: readonly number[],
+	actorTileIdList: readonly number[],
+	collectedIdList: readonly number[],
 ): boolean {
-	let isValid: boolean = actorDirectionIdList.length === actorTileIdList.length;
+	let isValid = actorDirectionIdList.length === actorTileIdList.length;
 
 	if (isValid) {
 		for (let i = 0, lengthI = actorDirectionIdList.length; i < lengthI; i++) {
-			const directionId: number = actorDirectionIdList[i];
+			const directionId = actorDirectionIdList[i];
 
 			if (
 				typeof directionId !== 'number' || directionId < 0 || directionId > maxDirectionId) {
@@ -259,7 +285,7 @@ function isGameStateValid(
 
 	if (isValid) {
 		for (let i = 0, lengthI = actorTileIdList.length; i < lengthI; i++) {
-			const actorTileId: number = actorTileIdList[i];
+			const actorTileId = actorTileIdList[i];
 
 			if (typeof actorTileId !== 'number' || actorTileId < 0 || actorTileId > maxTileId) {
 				isValid = false;
@@ -270,7 +296,7 @@ function isGameStateValid(
 
 	if (isValid) {
 		for (let i = 0, lengthI = collectedIdList.length; i < lengthI; i++) {
-			const collectedId: number = collectedIdList[i];
+			const collectedId = collectedIdList[i];
 
 			if (typeof collectedId !== 'number' || collectedId < 0 || collectedId > maxCollectableId) {
 				isValid = false;
@@ -286,7 +312,7 @@ function isPlayerAlive(actorList: ILevelDataActor[], directionList: number[]): b
 	let isAlive = directionList.length > 0;
 
 	if (isAlive) {
-		const player: ILevelDataActor = actorList[0];
+		const player = actorList[0];
 
 		for (let i = 1, lengthI = actorList.length; i < lengthI; i++) {
 			if (player.x === actorList[i].x && player.y === actorList[i].y) {

@@ -1,16 +1,15 @@
 import { convertXYToCSSPosition } from '../../shared/conversions';
-import { ICSSPosition } from '../../shared/interfaces';
 import React from 'react';
 import { css } from 'emotion';
 import styles from './CollectableStyles';
 
-interface IProps {
+type Props = Readonly<{
 	x: number;
 	y: number;
-}
+}>;
 
-export default function Collectable(props: IProps): JSX.Element | null {
-	const inlineStyle: ICSSPosition = convertXYToCSSPosition(props.x, props.y);
+export default function Collectable(props: Props): JSX.Element {
+	const inlineStyle = convertXYToCSSPosition(props.x, props.y);
 
 	return (
 		<div className={css(styles.collectable)} style={inlineStyle}/>

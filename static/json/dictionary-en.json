@@ -5,6 +5,9 @@
 	"Gamescreen.starttextNoJavaScript": "Click an arrow button on the screen",
 	"Home.subtitle": "a small game using React and Next.js",
 	"Home.title": "Next Man",
+	"LanguageSelector.de": "[DE]",
+	"LanguageSelector.en": "[EN]",
+	"LanguageSelector.label": "Language",
 	"StartButton.restart": "TRY AGAIN",
 	"StartButton.start": "START"
 }

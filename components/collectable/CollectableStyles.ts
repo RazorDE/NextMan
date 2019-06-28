@@ -11,7 +11,7 @@ const collectable: CSSObject = {
 	height: tileSize.y + 'px',
 	position: 'absolute',
 	width: tileSize.y + 'px',
-}
+};
 
 export default {
 	collectable,

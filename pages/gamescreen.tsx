@@ -1,30 +1,30 @@
 import { NextPageContext } from 'next';
-import { ParsedUrlQueryInput } from 'querystring';
-import GamescreenComponent from '../components/gamescreen/Gamescreen';
+import Gamescreen from '../components/gamescreen/Gamescreen';
 
-interface IProps {
-	actorDirectionIdListInput: number[];
-	actorTileIdListInput: number[];
-	collectedIdListInput: number[];
-}
+type Props = Readonly<{
+	actorDirectionIdListInput: readonly number[];
+	actorTileIdListInput: readonly number[];
+	collectedIdListInput: readonly number[];
+	language?: string;
+}>;
 
-export default function Gamescreen(
-	{ actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput }: IProps
-): JSX.Element {
+export default function GamescreenPage(props: Props): JSX.Element {
 	return (
-		<GamescreenComponent
-			actorDirectionIdListInput={actorDirectionIdListInput}
-			actorTileIdListInput={actorTileIdListInput}
-			collectedIdListInput={collectedIdListInput}
+		<Gamescreen
+			actorDirectionIdListInput={props.actorDirectionIdListInput}
+			actorTileIdListInput={props.actorTileIdListInput}
+			collectedIdListInput={props.collectedIdListInput}
 			hasJavaScript={typeof window !== 'undefined'}
+			language={props.language}
 		/>);
 }
 
-Gamescreen.getInitialProps = async ({ req, query }: NextPageContext): Promise<IProps> => {
-	const { ad, at, c }: ParsedUrlQueryInput = query;
+GamescreenPage.getInitialProps = async function ({ req, query }: NextPageContext): Promise<Props> {
+	const { ad, at, c, lang } = query;
 	let actorDirectionIdListInput: number[] = [];
 	let actorTileIdListInput: number[] = [];
 	let collectedIdListInput: number[] = [];
+	let language: string | undefined;
 
 	if (ad !== undefined && typeof ad === 'string' && ad.length > 0) {
 		try {
@@ -56,9 +56,14 @@ Gamescreen.getInitialProps = async ({ req, query }: NextPageContext): Promise<IP
 		}
 	}
 
+	if (lang !== undefined && typeof lang === 'string' && lang.length > 0) {
+		language = lang;
+	}
+
 	return {
 		actorDirectionIdListInput,
 		actorTileIdListInput,
 		collectedIdListInput,
+		language,
 	};
 }

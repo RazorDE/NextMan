@@ -1,6 +1,5 @@
 import { directionList, keyCodes } from '../../shared/constants';
 import { convertObjectToQueryString, convertXYToCSSPosition } from '../../shared/conversions';
-import { ICSSPosition } from '../../shared/interfaces';
 import settings from '../../shared/settings';
 import { ParsedUrlQueryInput } from 'querystring';
 import React from 'react';
@@ -9,23 +8,24 @@ import Link from 'next/link';
 import Router from 'next/router';
 import styles from './ArrowStyles';
 
-interface IProps {
-	actorDirectionIdList: number[];
-	actorTileIdList: number[];
-	collectedIdList: number[];
+type Props = Readonly<{
+	actorDirectionIdList: readonly number[];
+	actorTileIdList: readonly number[];
+	collectedIdList: readonly number[];
 	isDelayed: boolean;
+	language?: string;
 	x: number;
 	y: number;
-}
+}>;
 
-interface IState {
+type State = Readonly<{
 	animationTriggerId: number;
 	isClickable: boolean;
-}
+}>;
 
-export default class Arrow extends React.PureComponent<IProps, IState> {
+export default class Arrow extends React.PureComponent<Props, State> {
 
-	constructor(props: IProps) {
+	constructor(props: Props) {
 		super(props);
 
 		this.state = {
@@ -42,11 +42,10 @@ export default class Arrow extends React.PureComponent<IProps, IState> {
 			window.setTimeout(() => this.setState({isClickable: true}), animationDuration);
 		}
 
-		this.handleKeydown = this.handleKeydown.bind(this);
 		window.addEventListener('keydown', this.handleKeydown);
 	}
 
-	public componentDidUpdate(prevProps: IProps): void {
+	public componentDidUpdate(prevProps: Props): void {
 		const { props, state } = this;
 		const { animationDuration } = settings;
 
@@ -66,10 +65,10 @@ export default class Arrow extends React.PureComponent<IProps, IState> {
 
 	public render(): JSX.Element {
 		const { props, state } = this;
-		const directionId: number = props.actorDirectionIdList[0];
-		const inlineStyle: ICSSPosition = convertXYToCSSPosition(props.x, props.y);
-		const query: ParsedUrlQueryInput = this.getQuery(props);
-		const styleId: string =
+		const directionId = props.actorDirectionIdList[0];
+		const inlineStyle = convertXYToCSSPosition(props.x, props.y);
+		const query = this.getQuery(props);
+		const styleId =
 			`arrow${directionList[directionId]}${props.isDelayed ? `Delayed${state.animationTriggerId}` : ''}`;
 
 		return (
@@ -82,10 +81,11 @@ export default class Arrow extends React.PureComponent<IProps, IState> {
 		);
 	}
 
-	private getQuery(props: IProps): ParsedUrlQueryInput {
-		const actorDirectionString: string = props.actorDirectionIdList.join('-');
-		const actorTileIdString: string = props.actorTileIdList.join('-');
-		const collectableString: string = props.collectedIdList.join('-');
+	private getQuery(props: Props): ParsedUrlQueryInput {
+		const { language } = props;
+		const actorDirectionString = props.actorDirectionIdList.join('-');
+		const actorTileIdString = props.actorTileIdList.join('-');
+		const collectableString = props.collectedIdList.join('-');
 		let query: ParsedUrlQueryInput = {};
 
 		if (actorDirectionString.length > 0) {
@@ -100,20 +100,24 @@ export default class Arrow extends React.PureComponent<IProps, IState> {
 			query.c = collectableString;
 		}
 
+		if (language !== undefined && language.length > 0) {
+			query.lang = language;
+		}
+
 		return query;
 	}
 
-	private handleKeydown(event: KeyboardEvent): void {
+	private handleKeydown = (event: KeyboardEvent): void => {
 		const { props, state } = this;
 
 		if (!state.isClickable) {
 			return;
 		}
 
-		const directionId: number = props.actorDirectionIdList[0];
+		const directionId = props.actorDirectionIdList[0];
 
 		if (event.keyCode === keyCodes[directionId]) {
-			const url: string = `/gamescreen${convertObjectToQueryString(this.getQuery(props))}`;
+			const url = `/gamescreen${convertObjectToQueryString(this.getQuery(props))}`;
 			Router.push(url);
 		}
 	}

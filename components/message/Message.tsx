@@ -1,33 +1,33 @@
+import { getEntry } from '../../shared/dictionary';
 import React from 'react';
 import { css } from 'emotion';
 import styles from './MessageStyles';
-import dictionary from '../../shared/dictionary';
 
-interface IProps {
+type Props = Readonly<{
 	areCollectablesLeft: boolean;
 	hasJavaScript: boolean;
 	isInitialStep: boolean;
 	isPlayerAlive: boolean;
-}
+}>;
 
 export default function Message(
-	{ areCollectablesLeft, hasJavaScript, isInitialStep, isPlayerAlive }: IProps
+	{ areCollectablesLeft, hasJavaScript, isInitialStep, isPlayerAlive }: Props
 ): JSX.Element | null {
 
 	if (areCollectablesLeft && !isInitialStep && isPlayerAlive) {
 		return null;
 	}
 
-	let text: string = '';
+	let text = '';
 
 	if (!isPlayerAlive) {
-		text = dictionary['Gamescreen.gameOver'];
+		text = getEntry('Gamescreen.gameOver');
 	} else if (!areCollectablesLeft) {
-		text = dictionary['Gamescreen.gameWon'];
+		text = getEntry('Gamescreen.gameWon');
 	} else if (isInitialStep) {
 		text = hasJavaScript
-			? dictionary['Gamescreen.starttextJavaScript']
-			: dictionary['Gamescreen.starttextNoJavaScript'];
+			? getEntry('Gamescreen.starttextJavaScript')
+			: getEntry('Gamescreen.starttextNoJavaScript');
 	}
 
 	if (text.length < 1) {

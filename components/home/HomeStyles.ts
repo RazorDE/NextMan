@@ -26,7 +26,7 @@ const startButtonContainer: CSSObject = {
 	label: labelPrefix + 'startButtonContainer',
 	marginTop: '120px',
 	textAlign: 'center',
-}
+};
 
 const subtitle: CSSObject = {
 	label: labelPrefix + 'subtitle',

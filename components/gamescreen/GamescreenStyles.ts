@@ -12,7 +12,7 @@ const restartButtonContainer: CSSObject = {
 	textAlign: 'center',
 	top: '250px',
 	width: '100%',
-}
+};
 
 const viewport: CSSObject = {
 	label: labelPrefix + 'viewport',
@@ -21,9 +21,9 @@ const viewport: CSSObject = {
 	margin: '20px auto 0',
 	position: 'relative',
 	width: `${size.x * tileSize.x}px`,
-}
+};
 
 export default {
 	restartButtonContainer,
 	viewport,
-}
+};

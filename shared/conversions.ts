@@ -7,7 +7,7 @@ export function convertObjectToQueryString(obj: ParsedUrlQueryInput): string {
 		return '';
 	}
 
-	let queryString: string = '?';
+	let queryString = '?';
 
 	for (let key in obj) {
 		if (obj.hasOwnProperty(key)) {
@@ -19,8 +19,8 @@ export function convertObjectToQueryString(obj: ParsedUrlQueryInput): string {
 }
 
 export function convertTileIdToTileXY(tileId: number, levelWidth: number): ITileXY {
-	const y: number = Math.floor(tileId / levelWidth);
-	const x: number = tileId - y * levelWidth;
+	const y = Math.floor(tileId / levelWidth);
+	const x = tileId - y * levelWidth;
 
 	return { x, y };
 }

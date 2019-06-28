@@ -19,14 +19,14 @@ const direction: CSSObject = {
 	height: tileSize.y + 'px',
 	position: 'absolute',
 	width: tileSize.y + 'px',
-}
+};
 
 const sprite: CSSObject = {
 	label: labelPrefix + 'sprite',
 	backgroundImage: 'url(/static/images/chompersprites.png)',
 	height: tileSize.y + 'px',
 	width: tileSize.y + 'px',
-}
+};
 
 // Translate-animations for the direction class
 // Note: In order to "restart" a translate-animation it is replaced by
