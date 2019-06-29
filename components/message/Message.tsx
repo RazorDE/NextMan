@@ -1,5 +1,4 @@
 import React from 'react';
-import { css } from 'emotion';
 import { getEntry } from '../../shared/dictionary';
 import styles from './MessageStyles';
 
@@ -35,8 +34,11 @@ export default function Message(
 	}
 
 	return (
-		<div className={css(styles.container)}>
-			<div className={css(styles.text)}>{text}</div>
-		</div>
+		<>
+			<div className="container">
+				<div className="text">{text}</div>
+			</div>
+			<style jsx>{styles}</style>
+		</>
 	);
 }

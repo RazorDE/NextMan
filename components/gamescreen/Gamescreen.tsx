@@ -1,5 +1,4 @@
 import React from 'react';
-import { css } from 'emotion';
 import { directionList } from '../../shared/constants';
 import { convertTileIdToTileXY, convertTileXYToTileId } from '../../shared/conversions';
 import { EDirections } from '../../shared/enums';
@@ -57,36 +56,40 @@ export default function Gamescreen(
 	const player = actorList[0];
 	const playerDirectionIdList = getActorDirectionIdList(player, obstacleCoordinates);
 	const isAlive = isPlayerAlive(actorList, playerDirectionIdList);
+	const styleSheet = styles(levelSize.x, levelSize.y);
 
 	return (
-		<div className={css(styles.viewport(levelSize))}>
-			<Walls wallList={wallList} />
-			<Collectables collectableList={collectableList} />
-			<Actors actorList={actorList} />
-			{isAlive ? (
-				<NavigationControls
-					actorTileIdList={actorTileIdList}
-					collectedIdList={collectedIdList}
-					isDelayed={player.isMoving === true}
-					npcDirectionIdList={npcDirectionIdList}
-					playerDirectionIdList={playerDirectionIdList}
-					x={player.x}
-					y={player.y}
+		<>
+			<div className="viewport">
+				<Walls wallList={wallList} />
+				<Collectables collectableList={collectableList} />
+				<Actors actorList={actorList} />
+				{isAlive ? (
+					<NavigationControls
+						actorTileIdList={actorTileIdList}
+						collectedIdList={collectedIdList}
+						isDelayed={player.isMoving === true}
+						npcDirectionIdList={npcDirectionIdList}
+						playerDirectionIdList={playerDirectionIdList}
+						x={player.x}
+						y={player.y}
+					/>
+				) : null}
+				<Message
+					areCollectablesLeft={collectableList.length > 0}
+					hasJavaScript={hasJavaScript}
+					isInitialStep={player.isMoving !== true}
+					isPlayerAlive={isAlive}
 				/>
-			) : null}
-			<Message
-				areCollectablesLeft={collectableList.length > 0}
-				hasJavaScript={hasJavaScript}
-				isInitialStep={player.isMoving !== true}
-				isPlayerAlive={isAlive}
-			/>
-			{isAlive && collectableList.length > 0
-				? null : (
-					<div className={css(styles.restartButtonContainer)}>
-						<StartButton isRestart={true} />
-					</div>
-				)}
-		</div>
+				{isAlive && collectableList.length > 0
+					? null : (
+						<div className="restart-button">
+							<StartButton isRestart={true} />
+						</div>
+					)}
+			</div>
+			<style jsx>{styleSheet}</style>
+		</>
 	);
 }
 

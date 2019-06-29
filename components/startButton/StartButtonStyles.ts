@@ -1,23 +1,19 @@
-import { CSSObject } from '@emotion/core';
+import css from 'styled-jsx/css';
 
-const labelPrefix: string = 'startButton-';
+export default css`
+	a {
+		background-color: green;
+		border-radius: 30px;
+		color: #fff;
+		font-family: "Courier New", Courier, monospace;
+		font-size: 40px;
+		font-weight: bold;
+		padding: 5px 20px;
+		text-align: center;
+		text-decoration: none;
+	}
 
-const startButton: CSSObject = {
-	label: labelPrefix + 'startButton',
-	backgroundColor: 'green',
-	borderRadius: '30px',
-	color: '#fff',
-	fontFamily: '"Courier New", Courier, monospace',
-	fontSize: '40px',
-	fontWeight: 'bold',
-	padding: '5px 20px',
-	textAlign: 'center',
-	textDecoration: 'none',
-	':hover': {
-		color: 'yellow',
-	},
-};
-
-export default {
-	startButton,
-};
+	a:hover {
+		color: yellow;
+	}
+`;

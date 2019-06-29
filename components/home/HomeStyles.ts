@@ -1,62 +1,34 @@
+import css from 'styled-jsx/css';
 import { tileSize } from '../../shared/constants';
-import { CSSObject } from '@emotion/core';
 
-const labelPrefix: string = 'home-';
+export default css`
+	.start-button {
+		margin-top: 120px;
+		text-align: center;
+	}
 
-const startButton: CSSObject = {
-	label: labelPrefix + 'startButton',
-	backgroundColor: 'green',
-	borderRadius: '30px',
-	color: '#fff',
-	fontFamily: '"Courier New", Courier, monospace',
-	fontSize: '40px',
-	fontWeight: 'bold',
-	padding: '5px 20px',
-	textAlign: 'center',
-	textDecoration: 'none',
-	':hover': {
-		color: 'yellow',
-	},
-};
+	.subtitle {
+		color: #fff;
+		font-family: "Courier New", Courier, monospace;
+		font-size: 28px;
+		font-weight: bold;
+		text-align: center;
+	}
 
-const startButtonContainer: CSSObject = {
-	label: labelPrefix + 'startButtonContainer',
-	marginTop: '120px',
-	textAlign: 'center',
-};
+	.title {
+		color: #fff;
+		font-family: "Courier New", Courier, monospace;
+		font-size: 80px;
+		font-weight: bold;
+		margin-top: 60px;
+		text-align: center;
+	}
 
-const subtitle: CSSObject = {
-	label: labelPrefix + 'subtitle',
-	color: '#fff',
-	fontFamily: '"Courier New", Courier, monospace',
-	fontSize: '28px',
-	fontWeight: 'bold',
-	textAlign: 'center',
-};
-
-const title: CSSObject = {
-	label: labelPrefix + 'title',
-	color: '#fff',
-	fontFamily: '"Courier New", Courier, monospace',
-	fontSize: '80px',
-	fontWeight: 'bold',
-	marginTop: '60px',
-	textAlign: 'center',
-};
-
-const viewport: CSSObject = {
-	label: labelPrefix + 'viewport',
-	border: '1px solid blue',
-	height: `${15 * tileSize.y}px`,
-	margin: '20px auto 0',
-	position: 'relative',
-	width: `${20 * tileSize.x}px`,
-};
-
-export default {
-	startButton,
-	startButtonContainer,
-	subtitle,
-	title,
-	viewport,
-};
+	.viewport {
+		border: 1px solid blue;
+		height: ${15 * tileSize.y}px;
+		margin: 20px auto 0;
+		position: relative;
+		width: ${20 * tileSize.x}px;
+	}
+`;

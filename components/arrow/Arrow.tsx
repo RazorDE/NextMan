@@ -1,5 +1,4 @@
 import React from 'react';
-import { css } from 'emotion';
 import Link from 'next/link';
 import Router from 'next/router';
 import { ParsedUrlQueryInput } from 'querystring';
@@ -68,16 +67,19 @@ export default class Arrow extends React.PureComponent<Props, State> {
 		const directionId = props.actorDirectionIdList[0];
 		const inlineStyle = convertXYToCSSPosition(props.x, props.y);
 		const query = this.getQuery(props);
-		const styleId =
-			`arrow${directionList[directionId]}${props.isDelayed ? `Delayed${state.animationTriggerId}` : ''}`;
+		const className =
+			`arrow ${directionList[directionId]}${props.isDelayed ? ` delayed${state.animationTriggerId}` : ''}`;
 
 		return (
-			<Link href={{
-				pathname: '/gamescreen',
-				query,
-			}}>
-				<a className={css(styles[styleId])} style={inlineStyle} />
-			</Link>
+			<>
+				<Link href={{
+					pathname: '/gamescreen',
+					query,
+				}}>
+					<a className={className} style={inlineStyle} />
+				</Link>
+				<style jsx>{styles}</style>
+			</>
 		);
 	}
 

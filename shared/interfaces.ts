@@ -1,5 +1,3 @@
-import { CSSObject } from "@emotion/css";
-
 export interface ICoordinates {
 	[key: string]: boolean;
 }
@@ -38,10 +36,6 @@ export interface ISettings {
 	animationDuration: number;
 	defaultLanguage: string;
 	languageList: string[];
-}
-
-export interface IStyles {
-	[key: string]: CSSObject;
 }
 
 export interface ISize {

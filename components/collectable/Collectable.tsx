@@ -1,5 +1,4 @@
 import React from 'react';
-import { css } from 'emotion';
 import { convertXYToCSSPosition } from '../../shared/conversions';
 import styles from './CollectableStyles';
 
@@ -12,6 +11,9 @@ export default function Collectable(props: Props): JSX.Element {
 	const inlineStyle = convertXYToCSSPosition(props.x, props.y);
 
 	return (
-		<div className={css(styles.collectable)} style={inlineStyle}/>
+		<>
+			<div style={inlineStyle} />
+			<style jsx>{styles}</style>
+		</>
 	);
 }

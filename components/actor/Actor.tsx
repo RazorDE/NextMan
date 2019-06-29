@@ -1,9 +1,17 @@
 import React from 'react';
-import { css } from 'emotion';
-import { actorList, directionList } from '../../shared/constants';
+import { directionList } from '../../shared/constants';
 import { convertXYToCSSPosition } from '../../shared/conversions';
 import { EDirections } from '../../shared/enums';
 import styles from './ActorStyles';
+
+const actorNameList = [
+	'ghost-cyan',
+	'ghost-orange',
+	'ghost-pink',
+	'ghost-purple',
+	'ghost-red',
+	'player',
+];
 
 type Props = Readonly<{
 	directionId: number;
@@ -34,7 +42,7 @@ export default class Actor extends React.PureComponent<Props, State> {
 
 	public render(): JSX.Element | null {
 		const { props, state } = this;
-		const actorName = actorList[props.id];
+		const actorName = actorNameList[props.id];
 		const directionName = directionList[props.directionId];
 
 		if (
@@ -53,14 +61,17 @@ export default class Actor extends React.PureComponent<Props, State> {
 			)
 			: convertXYToCSSPosition(props.x, props.y);
 
-		const directionStyleId =
-			`direction${props.isMoving ? `${directionName}${state.animationTriggerId}` : 'None'}`;
-		const spriteStyleId = `${actorName}${directionName}`;
+		const classNameDirection =
+			`direction ${props.isMoving ? `${directionName}-${state.animationTriggerId}` : 'none'}`;
+		const classNameSprite = `actor ${actorName} ${directionName}`;
 
 		return (
-			<div className={css(styles[directionStyleId])} style={inlineStyle}>
-				<div className={css(styles[spriteStyleId])} />
-			</div>
+			<>
+				<div className={classNameDirection} style={inlineStyle}>
+					<div className={classNameSprite} />
+				</div>
+				<style jsx>{styles}</style>
+			</>
 		);
 	}
 }

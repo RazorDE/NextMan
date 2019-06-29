@@ -1,5 +1,4 @@
 import React from 'react';
-import { css } from 'emotion';
 import Link from 'next/link';
 import { getEntry, getLanguage } from '../../shared/dictionary';
 import styles from './StartButtonStyles';
@@ -15,8 +14,11 @@ export default function StartButton({ isRestart }: Props): JSX.Element {
 		: getEntry('StartButton.start');
 
 	return (
-		<Link href={`/gamescreen?lang=${language}`}>
-			<a className={css(styles.startButton)}>{text}</a>
-		</Link>
+		<>
+			<Link href={`/gamescreen?lang=${language}`}>
+				<a>{text}</a>
+			</Link>
+			<style jsx>{styles}</style>
+		</>
 	);
 }

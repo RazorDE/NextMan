@@ -1,139 +1,84 @@
+import css from 'styled-jsx/css';
 import { tileSize } from '../../shared/constants';
-import { IStyles } from '../../shared/interfaces';
-import { CSSObject } from '@emotion/core';
 
-const labelPrefix: string = 'wall-';
+export default css`
+	div {
+		background-image: url(/static/images/chompermazetiles.png);
+		height: ${tileSize.y}px;
+		position: absolute;
+		width: ${tileSize.y}px;
+	}
 
-const wall: CSSObject = {
-	label: labelPrefix + 'wall',
-	backgroundImage: 'url(/static/images/chompermazetiles.png)',
-	height: tileSize.y + 'px',
-	position: 'absolute',
-	width: tileSize.y + 'px',
-};
+	.corner-bottom-left {
+		background-position-x: -96px;
+		background-position-y: -64px;
+	}
 
-const cornerBottomLeft: CSSObject = {
-	...wall,
-	label: labelPrefix + 'cornerBottomLeft',
-	backgroundPositionX: '-96px',
-	backgroundPositionY: '-64px',
-};
+	.corner-bottom-right {
+		background-position-x: -160px;
+		background-position-y: -64px;
+	}
 
-const cornerBottomRight: CSSObject = {
-	...wall,
-	label: labelPrefix + 'cornerBottomRight',
-	backgroundPositionX: '-160px',
-	backgroundPositionY: '-64px',
-};
+	.corner-top-left {
+		background-position-x: -96px;
+	}
 
-const cornerTopLeft: CSSObject = {
-	...wall,
-	label: labelPrefix + 'cornerTopLeft',
-	backgroundPositionX: '-96px',
-};
+	.corner-top-right {
+		background-position-x: -160px;
+	}
 
-const cornerTopRight: CSSObject = {
-	...wall,
-	label: labelPrefix + 'cornerTopRight',
-	backgroundPositionX: '-160px',
-};
+	.horizontal-center {
+		background-position-x: -256px;
+	}
 
-const horizontalCenter: CSSObject = {
-	...wall,
-	label: labelPrefix + 'horizontalCenter',
-	backgroundPositionX: '-256px',
-};
+	.horizontal-left {
+		background-position-x: -224px;
+	}
 
-const horizontalLeft: CSSObject = {
-	...wall,
-	label: labelPrefix + 'horizontalLeft',
-	backgroundPositionX: '-224px',
-};
+	.horizontal-right {
+		background-position-x: -288px;
+	}
 
-const horizontalRight: CSSObject = {
-	...wall,
-	label: labelPrefix + 'horizontalRight',
-	backgroundPositionX: '-288px',
-};
+	.plus {
+		background-position-x: -128px;
+		background-position-y: -32px;
+	}
 
-const plus: CSSObject = {
-	...wall,
-	label: labelPrefix + 'plus',
-	backgroundPositionX: '-128px',
-	backgroundPositionY: '-32px',
-};
+	.single {
+		background-position-x: -224px;
+		background-position-y: -32px;
+	}
 
-const single: CSSObject = {
-	...wall,
-	label: labelPrefix + 'single',
-	backgroundPositionX: '-224px',
-	backgroundPositionY: '-32px',
-};
+	.t-bottom {
+		background-position-x: -128px;
+		background-position-y: -64px;
+	}
 
-const tBottom: CSSObject = {
-	...wall,
-	label: labelPrefix + 'tBottom',
-	backgroundPositionX: '-128px',
-	backgroundPositionY: '-64px',
-};
+	.t-left {
+		background-position-x: -96px;
+		background-position-y: -32px;
+	}
 
-const tLeft: CSSObject = {
-	...wall,
-	label: labelPrefix + 'tLeft',
-	backgroundPositionX: '-96px',
-	backgroundPositionY: '-32px',
-};
+	.t-right {
+		background-position-x: -160px;
+		background-position-y: -32px;
+	}
 
-const tRight: CSSObject = {
-	...wall,
-	label: labelPrefix + 'tRight',
-	backgroundPositionX: '-160px',
-	backgroundPositionY: '-32px',
-};
+	.t-top {
+		background-position-x: -128px;
+	}
 
-const tTop: CSSObject = {
-	...wall,
-	label: labelPrefix + 'tTop',
-	backgroundPositionX: '-128px',
-};
+	.vertical-bottom {
+		background-position-x: -192px;
+		background-position-y: -64px;
+	}
 
-const verticalBottom: CSSObject = {
-	...wall,
-	label: labelPrefix + 'verticalBottom',
-	backgroundPositionX: '-192px',
-	backgroundPositionY: '-64px',
-};
+	.vertical-center {
+		background-position-x: -192px;
+		background-position-y: -32px;
+	}
 
-const verticalCenter: CSSObject = {
-	...wall,
-	label: labelPrefix + 'verticalCenter',
-	backgroundPositionX: '-192px',
-	backgroundPositionY: '-32px',
-};
-
-const verticalTop: CSSObject = {
-	...wall,
-	label: labelPrefix + 'verticalTop',
-	backgroundPositionX: '-192px',
-};
-
-const styles: IStyles = {
-	cornerBottomLeft,
-	cornerBottomRight,
-	cornerTopLeft,
-	cornerTopRight,
-	horizontalCenter,
-	horizontalLeft,
-	horizontalRight,
-	plus,
-	single,
-	tBottom,
-	tLeft,
-	tRight,
-	tTop,
-	verticalBottom,
-	verticalCenter,
-	verticalTop,
-};
-
-export default styles;
+	.vertical-top {
+		background-position-x: -192px;
+	}
+`;

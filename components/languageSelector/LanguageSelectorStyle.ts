@@ -1,33 +1,22 @@
-import { CSSObject } from "@emotion/css";
+import css from 'styled-jsx/css';
 
-const labelPrefix: string = 'languageSelector-';
+export default css`
+	a {
+		color: blue;
+		text-decoration: none;
+	}
 
-const container: CSSObject = {
-	label: labelPrefix + 'container',
-	margin: '5px',
-	textAlign: 'right',
-	userSelect: 'none',
-};
+	div {
+		margin: 5px;
+		text-align: right;
+		user-select: none;
+	}
 
-const label: CSSObject = {
-	label: labelPrefix + 'label',
-	color: '#fff',
-};
+	.label {
+		color: #fff;
+	}
 
-const languageOption: CSSObject = {
-	label: labelPrefix + 'languageOption',
-	color: 'blue',
-	textDecoration: 'none',
-};
-
-const languageSelected: CSSObject = {
-	label: labelPrefix + 'languageSelected',
-	color: 'green',
-};
-
-export default {
-	container,
-	label,
-	languageOption,
-	languageSelected,
-};
+	.selected-language {
+		color: green;
+	}
+`;

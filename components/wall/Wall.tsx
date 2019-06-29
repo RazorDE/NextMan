@@ -1,8 +1,25 @@
 import React from 'react';
-import { css } from 'emotion';
-import { wallList } from '../../shared/constants';
 import { convertXYToCSSPosition } from '../../shared/conversions';
 import styles from './WallStyles';
+
+const wallNameList = [
+	'corner-bottom-left',
+	'corner-bottom-right',
+	'corner-top-left',
+	'corner-top-right',
+	'horizontal-center',
+	'horizontal-left',
+	'horizontal-right',
+	'plus',
+	'single',
+	't-bottom',
+	't-left',
+	't-right',
+	't-top',
+	'vertical-bottom',
+	'vertical-center',
+	'vertical-top',
+];
 
 type Props = Readonly<{
 	id: number;
@@ -12,15 +29,18 @@ type Props = Readonly<{
 
 export default function Wall(props: Props): JSX.Element | null {
 	const id = `${props.id}-${props.x}-${props.y}`;
-	const name = wallList[props.id];
+	const className = wallNameList[props.id];
 
-	if (name === undefined) {
+	if (className === undefined) {
 		return null;
 	}
 
 	const inlineStyle = convertXYToCSSPosition(props.x, props.y);
 
 	return (
-		<div id={id} className={css(styles[name])} style={inlineStyle}/>
+		<>
+			<div id={id} className={className} style={inlineStyle}/>
+			<style jsx>{styles}</style>
+		</>
 	);
 }
