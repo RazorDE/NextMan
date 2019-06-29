@@ -5,6 +5,11 @@ export interface ICoordinates {
 }
 
 export interface IDictionary {
+	data: IDictionaryData;
+	language: string;
+}
+
+export interface IDictionaryData {
 	[key: string]: string;
 }
 
@@ -31,6 +36,8 @@ export interface ILevelDataWall extends ITileXY {
 
 export interface ISettings {
 	animationDuration: number;
+	defaultLanguage: string;
+	languageList: string[];
 }
 
 export interface IStyles {

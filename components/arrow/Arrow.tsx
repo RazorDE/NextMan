@@ -1,11 +1,12 @@
-import { directionList, keyCodes } from '../../shared/constants';
-import { convertObjectToQueryString, convertXYToCSSPosition } from '../../shared/conversions';
-import settings from '../../shared/settings';
-import { ParsedUrlQueryInput } from 'querystring';
 import React from 'react';
 import { css } from 'emotion';
 import Link from 'next/link';
 import Router from 'next/router';
+import { ParsedUrlQueryInput } from 'querystring';
+import { directionList, keyCodes } from '../../shared/constants';
+import { convertObjectToQueryString, convertXYToCSSPosition } from '../../shared/conversions';
+import { getLanguage } from '../../shared/dictionary';
+import settings from '../../shared/settings';
 import styles from './ArrowStyles';
 
 type Props = Readonly<{
@@ -13,7 +14,6 @@ type Props = Readonly<{
 	actorTileIdList: readonly number[];
 	collectedIdList: readonly number[];
 	isDelayed: boolean;
-	language?: string;
 	x: number;
 	y: number;
 }>;
@@ -82,7 +82,7 @@ export default class Arrow extends React.PureComponent<Props, State> {
 	}
 
 	private getQuery(props: Props): ParsedUrlQueryInput {
-		const { language } = props;
+		const language = getLanguage();
 		const actorDirectionString = props.actorDirectionIdList.join('-');
 		const actorTileIdString = props.actorTileIdList.join('-');
 		const collectableString = props.collectedIdList.join('-');
@@ -100,7 +100,7 @@ export default class Arrow extends React.PureComponent<Props, State> {
 			query.c = collectableString;
 		}
 
-		if (language !== undefined && language.length > 0) {
+		if (language.length > 0) {
 			query.lang = language;
 		}
 

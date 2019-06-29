@@ -1,12 +1,11 @@
-import { EDirections } from '../../shared/enums';
 import React from 'react';
+import { EDirections } from '../../shared/enums';
 import Arrow from '../arrow/Arrow';
 
 type Props = Readonly<{
 	actorTileIdList: readonly number[];
 	collectedIdList: readonly number[];
 	isDelayed: boolean;
-	language?: string;
 	npcDirectionIdList: readonly number[];
 	playerDirectionIdList: readonly number[];
 	x: number;
@@ -26,7 +25,6 @@ export default function NavigationControls(props: Props): JSX.Element {
 			collectedIdList={props.collectedIdList}
 			isDelayed={props.isDelayed}
 			key={directionId}
-			language={props.language}
 			x={x}
 			y={y}
 		/>;

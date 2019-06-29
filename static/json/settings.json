@@ -1,3 +1,5 @@
 {
-	"animationDuration": 500
+	"animationDuration": 500,
+	"defaultLanguage": "en",
+	"languageList": ["en", "de"]
 }

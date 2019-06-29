@@ -1,6 +1,6 @@
+import React from 'react';
+import { css } from 'emotion';
 import { directionList } from '../../shared/constants';
-import { setLanguage } from '../../shared/dictionary';
-import { mutableClone } from '../../shared/util';
 import { convertTileIdToTileXY, convertTileXYToTileId } from '../../shared/conversions';
 import { EDirections } from '../../shared/enums';
 import {
@@ -12,8 +12,7 @@ import {
 	ITileXY,
 } from '../../shared/interfaces';
 import initialLevelData from '../../shared/levelData';
-import React from 'react';
-import { css } from 'emotion';
+import { mutableClone } from '../../shared/util';
 import Actor from '../actor/Actor';
 import Collectable from '../collectable/Collectable';
 import Message from '../message/Message';
@@ -33,16 +32,13 @@ type Props = Readonly<{
 	actorTileIdListInput: readonly number[];
 	collectedIdListInput: readonly number[];
 	hasJavaScript: boolean;
-	language?: string;
 }>;
 
 export default function Gamescreen(
-	{ actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput, hasJavaScript, language }: Props
+	{ actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput, hasJavaScript }: Props
 ): JSX.Element {
 	let collectedIdList: number[] = [];
 	let levelData = initialLevelData;
-
-	setLanguage(language);
 
 	if (isGameStateValid(actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput)) {
 		levelData = getCurrentLevelDataFromGameState(
@@ -72,7 +68,6 @@ export default function Gamescreen(
 					actorTileIdList={actorTileIdList}
 					collectedIdList={collectedIdList}
 					isDelayed={player.isMoving === true}
-					language={language}
 					npcDirectionIdList={npcDirectionIdList}
 					playerDirectionIdList={playerDirectionIdList}
 					x={player.x}
@@ -88,7 +83,7 @@ export default function Gamescreen(
 			{isAlive && collectableList.length > 0
 				? null : (
 					<div className={css(styles.restartButtonContainer)}>
-						<StartButton isRestart={true} language={language} />
+						<StartButton isRestart={true} />
 					</div>
 				)}
 		</div>

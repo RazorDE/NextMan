@@ -1,24 +1,30 @@
-import { css } from 'emotion';
 import React from 'react';
+import { css } from 'emotion';
+import Link from 'next/link';
 import { getEntry, getLanguage } from '../../shared/dictionary';
+import settings from '../../shared/settings';
 import styles from './LanguageSelectorStyle';
 
 export default function LanguageSelector(): JSX.Element {
 	return (
 		<div className={css(styles.container)}>
 			<span className={css(styles.label)}>{getEntry('LanguageSelector.label')}:&nbsp;</span>
-			<LanguageOption language="en" />&nbsp;
-			<LanguageOption language="de" />
+			<LanguageList />
 		</div>
 	);
 }
 
-interface ILanguageOptionProps {
-	language: string;
-}
+function LanguageList(): JSX.Element {
+	const selectedLanguage = getLanguage();
+	const languageList = settings.languageList.map(language => {
+		return language !== selectedLanguage
+			? <Link href={`?lang=${language}`} key={language}>
+				<a className={css(styles.languageOption)}>{getEntry(`LanguageSelector.${language}`)}</a>
+			</Link>
+			: <span className={css(styles.languageSelected)} key={language}>
+				{getEntry(`LanguageSelector.${language}`)}
+			</span>
+	});
 
-function LanguageOption({ language }: ILanguageOptionProps): JSX.Element {
-	return getLanguage() === language
-		? <span className={css(styles.languageSelected)}>{getEntry(`LanguageSelector.${language}`)}</span>
-		: <a className={css(styles.languageOption)} href={`?lang=${language}`}>{getEntry(`LanguageSelector.${language}`)}</a>;
+	return <>{languageList}</>;
 }

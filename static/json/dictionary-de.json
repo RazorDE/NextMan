@@ -1,13 +1,16 @@
 {
-	"Gamescreen.gameOver": "SPIEL VERLOREN",
-	"Gamescreen.gameWon": "HERZLICHEN GLÜCKWUNSCH! DU HAST DAS SPIEL GEWONNEN",
-	"Gamescreen.starttextJavaScript": "Klicke einen der Pfeil-Buttons auf dem Bildschirm oder die entsprechende Pfeil-Taste auf Deiner Tastatur",
-	"Gamescreen.starttextNoJavaScript": "Klicke einen der Pfeil-Buttons auf dem Bildschirm",
-	"Home.subtitle": "ein Spielchen mit React und Next.js",
-	"Home.title": "Next Man",
-	"LanguageSelector.de": "[DE]",
-	"LanguageSelector.en": "[EN]",
-	"LanguageSelector.label": "Sprache",
-	"StartButton.restart": "ERNEUT VERSUCHEN",
-	"StartButton.start": "STARTEN"
+	"data": {
+		"Gamescreen.gameOver": "SPIEL VERLOREN",
+		"Gamescreen.gameWon": "HERZLICHEN GLÜCKWUNSCH! DU HAST DAS SPIEL GEWONNEN",
+		"Gamescreen.starttextJavaScript": "Klicke einen der Pfeil-Buttons auf dem Bildschirm oder die entsprechende Pfeil-Taste auf Deiner Tastatur",
+		"Gamescreen.starttextNoJavaScript": "Klicke einen der Pfeil-Buttons auf dem Bildschirm",
+		"Home.subtitle": "ein Spielchen mit React und Next.js",
+		"Home.title": "Next Man",
+		"LanguageSelector.de": "[DE]",
+		"LanguageSelector.en": "[EN]",
+		"LanguageSelector.label": "Sprache",
+		"StartButton.restart": "ERNEUT VERSUCHEN",
+		"StartButton.start": "STARTEN"
+	},
+	"language": "de"
 }

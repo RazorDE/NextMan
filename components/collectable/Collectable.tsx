@@ -1,6 +1,6 @@
-import { convertXYToCSSPosition } from '../../shared/conversions';
 import React from 'react';
 import { css } from 'emotion';
+import { convertXYToCSSPosition } from '../../shared/conversions';
 import styles from './CollectableStyles';
 
 type Props = Readonly<{

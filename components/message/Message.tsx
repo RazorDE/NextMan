@@ -1,6 +1,6 @@
-import { getEntry } from '../../shared/dictionary';
 import React from 'react';
 import { css } from 'emotion';
+import { getEntry } from '../../shared/dictionary';
 import styles from './MessageStyles';
 
 type Props = Readonly<{

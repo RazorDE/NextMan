@@ -1,9 +1,9 @@
-import { actorList, directionList } from '../../shared/constants';
-import { convertXYToCSSPosition } from '../../shared/conversions';
 import React from 'react';
 import { css } from 'emotion';
-import styles from './ActorStyles';
+import { actorList, directionList } from '../../shared/constants';
+import { convertXYToCSSPosition } from '../../shared/conversions';
 import { EDirections } from '../../shared/enums';
+import styles from './ActorStyles';
 
 type Props = Readonly<{
 	directionId: number;

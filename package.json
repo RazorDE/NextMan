@@ -8,6 +8,7 @@
 		"@emotion/styled": "^10.0.14",
 		"emotion": "^10.0.14",
 		"emotion-server": "^10.0.14",
+		"isomorphic-unfetch": "^3.0.0",
 		"next": "^8.1.1-canary.61",
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6",
@@ -27,5 +28,5 @@
 		"start": "next start",
 		"type-check": "tsc"
 	},
-	"version": "0.0.2"
+	"version": "0.0.3"
 }

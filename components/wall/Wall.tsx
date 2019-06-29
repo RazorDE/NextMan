@@ -1,7 +1,7 @@
-import { wallList } from '../../shared/constants';
-import { convertXYToCSSPosition } from '../../shared/conversions';
 import React from 'react';
 import { css } from 'emotion';
+import { wallList } from '../../shared/constants';
+import { convertXYToCSSPosition } from '../../shared/conversions';
 import styles from './WallStyles';
 
 type Props = Readonly<{
