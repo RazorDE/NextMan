@@ -35,7 +35,6 @@ export async function loadDictionary(host: string, language?: string): Promise<I
 
 	if (!response.ok) {
 		return undefined;
-		
 	}
 
 	return await response.json();

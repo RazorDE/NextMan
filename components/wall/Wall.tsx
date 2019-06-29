@@ -39,7 +39,7 @@ export default function Wall(props: Props): JSX.Element | null {
 
 	return (
 		<>
-			<div id={id} className={className} style={inlineStyle}/>
+			<div id={id} className={className} style={inlineStyle} />
 			<style jsx>{styles}</style>
 		</>
 	);

@@ -18,7 +18,7 @@ export function isIncluded<Type>(needle: Type, haystack: Type[]): boolean {
 	return false;
 }
 
-type Mutable<Type> = { -readonly [Prop in keyof Type]: Type[Prop] }; 
+type Mutable<Type> = { -readonly [Prop in keyof Type]: Type[Prop] };
 
 export function mutableClone<Type>(original: Type): Mutable<Type> {
 	return JSON.parse(JSON.stringify(original));

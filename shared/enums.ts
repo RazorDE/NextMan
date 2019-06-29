@@ -1,1 +1,1 @@
-export enum EDirections { DOWN,	LEFT, RIGHT, UP };
+export enum EDirections { DOWN, LEFT, RIGHT, UP };

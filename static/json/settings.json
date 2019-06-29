@@ -1,5 +1,6 @@
 {
 	"animationDuration": 500,
 	"defaultLanguage": "en",
-	"languageList": ["en", "de"]
+	"languageList": ["en", "de"],
+	"websiteTitle": "Next Man"
 }

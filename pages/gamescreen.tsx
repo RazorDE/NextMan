@@ -1,10 +1,11 @@
 import React from 'react';
 import { NextPageContext } from 'next';
 import { convertStringifiedNumbersToArray } from '../shared/conversions';
-import { setDictionary, loadDictionary } from '../shared/dictionary';
+import { getEntry, setDictionary, loadDictionary } from '../shared/dictionary';
 import { IDictionary } from '../shared/interfaces';
 import { getHost } from '../shared/util';
 import Gamescreen from '../components/gamescreen/Gamescreen';
+import Head from '../components/head/Head';
 
 type Props = Readonly<{
 	actorDirectionIdListInput: readonly number[];
@@ -16,12 +17,16 @@ type Props = Readonly<{
 export default function GamescreenPage(props: Props): JSX.Element {
 	setDictionary(props.dictionary);
 	return (
-		<Gamescreen
-			actorDirectionIdListInput={props.actorDirectionIdListInput}
-			actorTileIdListInput={props.actorTileIdListInput}
-			collectedIdListInput={props.collectedIdListInput}
-			hasJavaScript={typeof window !== 'undefined'}
-		/>);
+		<>
+			<Head robots="noindex, nofollow" subtitle={getEntry('Gamescreen.websiteSubtitle')} />
+			<Gamescreen
+				actorDirectionIdListInput={props.actorDirectionIdListInput}
+				actorTileIdListInput={props.actorTileIdListInput}
+				collectedIdListInput={props.collectedIdListInput}
+				hasJavaScript={typeof window !== 'undefined'}
+			/>
+		</>
+	);
 }
 
 GamescreenPage.getInitialProps = async function ({ req, query }: NextPageContext): Promise<Props> {

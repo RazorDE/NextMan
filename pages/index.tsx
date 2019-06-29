@@ -1,8 +1,9 @@
 import React from 'react';
-import { loadDictionary, setDictionary } from '../shared/dictionary';
+import { getEntry, loadDictionary, setDictionary } from '../shared/dictionary';
 import { IDictionary } from '../shared/interfaces';
 import { getHost } from '../shared/util';
 import { NextPageContext } from 'next';
+import Head from '../components/head/Head';
 import Home from '../components/home/Home';
 
 type Props = Readonly<{
@@ -11,7 +12,10 @@ type Props = Readonly<{
 
 export default function IndexPage(props: Props): JSX.Element {
 	setDictionary(props.dictionary);
-	return <Home />;
+	return (<>
+		<Head robots="index, nofollow" subtitle={getEntry("Home.websiteSubtitle")} />
+		<Home />
+	</>);
 }
 
 IndexPage.getInitialProps = async function ({ req, query }: NextPageContext): Promise<Props> {

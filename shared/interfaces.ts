@@ -36,6 +36,7 @@ export interface ISettings {
 	animationDuration: number;
 	defaultLanguage: string;
 	languageList: string[];
+	websiteTitle: string;
 }
 
 export interface ISize {

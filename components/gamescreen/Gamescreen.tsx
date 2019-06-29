@@ -49,6 +49,7 @@ export default function Gamescreen(
 	}
 
 	const { actorList, collectableList, wallList } = levelData;
+	const areCollectablesLeft = collectableList.length > 0;
 	const actorCoordinates = getCoordinates(actorList);
 	const actorTileIdList = getQueryParametersFromList(actorList);
 	const npcDirectionIdList = createNpcDirectionIdList(actorList, wallCoordinates);
@@ -64,7 +65,7 @@ export default function Gamescreen(
 				<Walls wallList={wallList} />
 				<Collectables collectableList={collectableList} />
 				<Actors actorList={actorList} />
-				{isAlive ? (
+				{isAlive && areCollectablesLeft ? (
 					<NavigationControls
 						actorTileIdList={actorTileIdList}
 						collectedIdList={collectedIdList}
@@ -76,7 +77,7 @@ export default function Gamescreen(
 					/>
 				) : null}
 				<Message
-					areCollectablesLeft={collectableList.length > 0}
+					areCollectablesLeft={areCollectablesLeft}
 					hasJavaScript={hasJavaScript}
 					isInitialStep={player.isMoving !== true}
 					isPlayerAlive={isAlive}
@@ -93,11 +94,11 @@ export default function Gamescreen(
 	);
 }
 
-interface IActorsProps {
-	actorList: ILevelDataActor[]
-};
+type ActorsProps = Readonly<{
+	actorList: ILevelDataActor[];
+}>;
 
-function Actors({ actorList }: IActorsProps): JSX.Element {
+function Actors({ actorList }: ActorsProps): JSX.Element {
 	const actorElementList = actorList.map((actor, index) =>
 		<Actor
 			directionId={actor.d}
@@ -112,11 +113,11 @@ function Actors({ actorList }: IActorsProps): JSX.Element {
 	return <>{actorElementList}</>
 }
 
-interface ICollectablesProps {
+type CollectablesProps = Readonly<{
 	collectableList: ITileXY[];
-}
+}>;
 
-function Collectables({ collectableList }: ICollectablesProps): JSX.Element {
+function Collectables({ collectableList }: CollectablesProps): JSX.Element {
 	const collectableElementList = collectableList.map(
 		(collectable, index) => <Collectable key={index} x={collectable.x} y={collectable.y} />
 	);
@@ -124,11 +125,11 @@ function Collectables({ collectableList }: ICollectablesProps): JSX.Element {
 	return <>{collectableElementList}</>
 }
 
-interface IWallsProps {
+type WallsProps = Readonly<{
 	wallList: ILevelDataWall[];
-}
+}>;
 
-function Walls({ wallList }: IWallsProps): JSX.Element {
+function Walls({ wallList }: WallsProps): JSX.Element {
 	const wallsElementList = wallList.map(
 		(wall, index) => <Wall id={wall.id} key={index} x={wall.x} y={wall.y} />
 	);

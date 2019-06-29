@@ -38,7 +38,7 @@ export default class Arrow extends React.PureComponent<Props, State> {
 		const { animationDuration } = settings;
 
 		if (props.isDelayed) {
-			window.setTimeout(() => this.setState({isClickable: true}), animationDuration);
+			window.setTimeout(() => this.setState({ isClickable: true }), animationDuration);
 		}
 
 		window.addEventListener('keydown', this.handleKeydown);
@@ -54,7 +54,7 @@ export default class Arrow extends React.PureComponent<Props, State> {
 				isClickable: false,
 			});
 
-			window.setTimeout(() => this.setState({isClickable: true}), animationDuration);
+			window.setTimeout(() => this.setState({ isClickable: true }), animationDuration);
 		}
 	}
 

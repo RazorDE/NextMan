@@ -15,7 +15,7 @@ export default function styles(levelSizeX: number, levelSizeY: number): string {
 			height: ${levelSizeY * tileSize.y}px;
 			margin: 20px auto 0;
 			position: relative;
-			width: ${levelSizeX * tileSize.x }px;
+			width: ${levelSizeX * tileSize.x}px;
 		}
 	`
 }
