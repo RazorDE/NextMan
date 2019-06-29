@@ -1,8 +1,5 @@
-import levelData from '../../shared/levelData';
 import { tileSize } from '../../shared/constants';
 import { CSSObject } from '@emotion/core';
-
-const { size } = levelData;
 
 const labelPrefix: string = 'home-';
 
@@ -50,10 +47,10 @@ const title: CSSObject = {
 const viewport: CSSObject = {
 	label: labelPrefix + 'viewport',
 	border: '1px solid blue',
-	height: `${size.y * tileSize.y}px`,
+	height: `${15 * tileSize.y}px`,
 	margin: '20px auto 0',
 	position: 'relative',
-	width: `${size.x * tileSize.x}px`,
+	width: `${20 * tileSize.x}px`,
 };
 
 export default {

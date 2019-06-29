@@ -18,6 +18,27 @@ export function convertObjectToQueryString(obj: ParsedUrlQueryInput): string {
 	return queryString.substr(0, queryString.length - 1);
 }
 
+export function convertStringifiedNumbersToArray(stringifiedNumbers: string): number[] {
+	if (stringifiedNumbers.length < 1) {
+		return [];
+	}
+
+	try {
+		const parsed = JSON.parse(`[${stringifiedNumbers.replace(/-/g, ',')}]`);
+		const result: number[] = [];
+
+		for (let i = 0, lengthI = parsed.length; i < lengthI; i++) {
+			if (typeof parsed[i] === 'number') {
+				result.push(parsed[i]);
+			}
+		}
+
+		return result;
+	} catch (error) {
+		return [];
+	}
+}
+
 export function convertTileIdToTileXY(tileId: number, levelWidth: number): ITileXY {
 	const y = Math.floor(tileId / levelWidth);
 	const x = tileId - y * levelWidth;

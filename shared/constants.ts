@@ -1,4 +1,4 @@
-import { ITileSize } from './interfaces';
+import { ISize } from './interfaces';
 
 export const actorList = [
 	'ghostCyan',
@@ -27,7 +27,7 @@ export const actorPositionYList = [
 
 export const directionList = ['Down', 'Left',	'Right', 'Up'];
 export const keyCodes = [40, 37, 39, 38];
-export const tileSize: ITileSize = {x: 32, y: 32};
+export const tileSize: ISize = {x: 32, y: 32};
 
 export const wallList = [
 	'cornerBottomLeft',

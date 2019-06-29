@@ -16,7 +16,6 @@ export interface ICSSPosition {
 export interface ILevelData {
 	actorList: ILevelDataActor[];
 	collectableList: ITileXY[];
-	size: ITileXY;
 	wallList: ILevelDataWall[];
 	width: number;
 }
@@ -38,7 +37,7 @@ export interface IStyles {
 	[key: string]: CSSObject;
 }
 
-export interface ITileSize {
+export interface ISize {
 	x: number;
 	y: number;
 }

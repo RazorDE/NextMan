@@ -11,11 +11,9 @@ export default function IndexPage(props: Props): JSX.Element {
 
 IndexPage.getInitialProps = async function ({ query }: NextPageContext): Promise<Props> {
 	const { lang } = query;
-	let language: string | undefined;
-
-	if (lang !== undefined && typeof lang === 'string' && lang.length > 0) {
-		language = lang;
-	}
+	const language = lang !== undefined && typeof lang === 'string' && lang.length > 0
+		? lang
+		: undefined;
 
 	return {
 		language,
