@@ -6,7 +6,7 @@ import { directionList, keyCodes } from '../../shared/constants';
 import { convertObjectToQueryString, convertXYToCSSPosition } from '../../shared/conversions';
 import { getLanguage } from '../../shared/dictionary';
 import settings from '../../shared/settings';
-import styles from './ArrowStyles';
+import { styles } from './ArrowStyles';
 
 type Props = Readonly<{
 	actorDirectionIdList: readonly number[];
@@ -33,7 +33,7 @@ export default class Arrow extends React.PureComponent<Props, State> {
 		}
 	}
 
-	public componentDidMount(): void {
+	public componentDidMount() {
 		const { props } = this;
 		const { animationDuration } = settings;
 
@@ -44,7 +44,7 @@ export default class Arrow extends React.PureComponent<Props, State> {
 		window.addEventListener('keydown', this.handleKeydown);
 	}
 
-	public componentDidUpdate(prevProps: Props): void {
+	public componentDidUpdate(prevProps: Props) {
 		const { props, state } = this;
 		const { animationDuration } = settings;
 
@@ -58,11 +58,11 @@ export default class Arrow extends React.PureComponent<Props, State> {
 		}
 	}
 
-	public componentWillUnmount(): void {
+	public componentWillUnmount() {
 		window.removeEventListener('keydown', this.handleKeydown);
 	}
 
-	public render(): JSX.Element {
+	public render() {
 		const { props, state } = this;
 		const directionId = props.actorDirectionIdList[0];
 		const inlineStyle = convertXYToCSSPosition(props.x, props.y);
@@ -83,7 +83,7 @@ export default class Arrow extends React.PureComponent<Props, State> {
 		);
 	}
 
-	private getQuery(props: Props): ParsedUrlQueryInput {
+	private getQuery(props: Props) {
 		const language = getLanguage();
 		const actorDirectionString = props.actorDirectionIdList.join('-');
 		const actorTileIdString = props.actorTileIdList.join('-');
@@ -109,7 +109,7 @@ export default class Arrow extends React.PureComponent<Props, State> {
 		return query;
 	}
 
-	private handleKeydown = (event: KeyboardEvent): void => {
+	private handleKeydown = (event: KeyboardEvent) => {
 		const { props, state } = this;
 
 		if (!state.isClickable) {

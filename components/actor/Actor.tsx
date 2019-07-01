@@ -2,7 +2,7 @@ import React from 'react';
 import { directionList } from '../../shared/constants';
 import { convertXYToCSSPosition } from '../../shared/conversions';
 import { EDirections } from '../../shared/enums';
-import styles from './ActorStyles';
+import { styles } from './ActorStyles';
 
 const actorNameList = [
 	'ghost-cyan',
@@ -31,7 +31,7 @@ export default class Actor extends React.PureComponent<Props, State> {
 		this.state = { animationTriggerId: 0 };
 	}
 
-	public componentDidUpdate(prevProps: Props): void {
+	public componentDidUpdate(prevProps: Props) {
 		const { props, state } = this;
 
 		if (props !== prevProps) {
@@ -40,7 +40,7 @@ export default class Actor extends React.PureComponent<Props, State> {
 		}
 	}
 
-	public render(): JSX.Element | null {
+	public render() {
 		const { props, state } = this;
 		const actorName = actorNameList[props.id];
 		const directionName = directionList[props.directionId];

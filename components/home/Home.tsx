@@ -1,10 +1,9 @@
-import React from 'react';
 import { getEntry } from '../../shared/dictionary';
 import LanguageSelector from '../languageSelector/LanguageSelector';
 import StartButton from '../startButton/StartButton';
-import styles from './HomeStyles';
+import { styles } from './HomeStyles';
 
-export default function Home(): JSX.Element {
+export default function Home() {
 	return (
 		<>
 			<div className="viewport">

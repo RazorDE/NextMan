@@ -1,8 +1,8 @@
 import { tileSize } from './constants';
-import { ITileXY, ICSSPosition } from './interfaces';
+import { ITileXY } from './interfaces';
 import { ParsedUrlQueryInput } from 'querystring';
 
-export function convertObjectToQueryString(obj: ParsedUrlQueryInput): string {
+export function convertObjectToQueryString(obj: ParsedUrlQueryInput) {
 	if (typeof obj !== 'object' || Object.keys(obj).length < 1) {
 		return '';
 	}
@@ -18,7 +18,7 @@ export function convertObjectToQueryString(obj: ParsedUrlQueryInput): string {
 	return queryString.substr(0, queryString.length - 1);
 }
 
-export function convertStringifiedNumbersToArray(stringifiedNumbers: string): number[] {
+export function convertStringifiedNumbersToArray(stringifiedNumbers: string) {
 	if (stringifiedNumbers.length < 1) {
 		return [];
 	}
@@ -39,18 +39,18 @@ export function convertStringifiedNumbersToArray(stringifiedNumbers: string): nu
 	}
 }
 
-export function convertTileIdToTileXY(tileId: number, levelWidth: number): ITileXY {
+export function convertTileIdToTileXY(tileId: number, levelWidth: number) {
 	const y = Math.floor(tileId / levelWidth);
 	const x = tileId - y * levelWidth;
 
 	return { x, y };
 }
 
-export function convertTileXYToTileId(coordinate: ITileXY, levelWidth: number): number {
+export function convertTileXYToTileId(coordinate: ITileXY, levelWidth: number) {
 	return coordinate.y * levelWidth + coordinate.x;
 }
 
-export function convertXYToCSSPosition(x: number, y: number): ICSSPosition {
+export function convertXYToCSSPosition(x: number, y: number) {
 	return {
 		left: (x * tileSize.x).toString() + 'px',
 		top: (y * tileSize.y).toString() + 'px'

@@ -1,13 +1,12 @@
-import React from 'react';
 import Link from 'next/link';
 import { getEntry, getLanguage } from '../../shared/dictionary';
-import styles from './StartButtonStyles';
+import { styles } from './StartButtonStyles';
 
 type Props = Readonly<{
 	isRestart: boolean;
 }>;
 
-export default function StartButton({ isRestart }: Props): JSX.Element {
+export default function StartButton({ isRestart }: Props) {
 	const language = getLanguage();
 	const text = isRestart
 		? getEntry('StartButton.restart')

@@ -1,4 +1,3 @@
-import React from 'react';
 import NextHead from 'next/head';
 import settings from '../../shared/settings';
 
@@ -10,7 +9,7 @@ type Props = Readonly<{
 	viewport?: string;
 }>;
 
-export default function Head(props: Props): JSX.Element {
+export default function Head(props: Props) {
 	const title: string = settings.websiteTitle +
 		(props.subtitle !== undefined && props.subtitle.length > 0 ? ` - ${props.subtitle}` : '');
 
@@ -30,7 +29,7 @@ type MetaTagProps = Readonly<{
 	name: string;
 }>;
 
-function MetaTag({ content, name }: MetaTagProps): JSX.Element | null {
+function MetaTag({ content, name }: MetaTagProps) {
 	if (content === undefined || content.length < 1) {
 		return null;
 	}

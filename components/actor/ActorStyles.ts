@@ -4,7 +4,7 @@ import settings from '../../shared/settings';
 
 const animationDuration: string = `${settings.animationDuration}ms`;
 
-export default css`
+export const styles = css`
 	@keyframes down-0 {
 		from { transform: translateY(0) }
 		to { transform: translateY(${tileSize.y}px) }

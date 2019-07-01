@@ -1,7 +1,7 @@
 import css from 'styled-jsx/css';
 import { tileSize } from '../../shared/constants';
 
-export default css`
+export const styles = css`
 	.start-button {
 		margin-top: 120px;
 		text-align: center;

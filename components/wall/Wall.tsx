@@ -1,6 +1,5 @@
-import React from 'react';
 import { convertXYToCSSPosition } from '../../shared/conversions';
-import styles from './WallStyles';
+import { styles } from './WallStyles';
 
 const wallNameList = [
 	'corner-bottom-left',
@@ -27,7 +26,7 @@ type Props = Readonly<{
 	y: number;
 }>;
 
-export default function Wall(props: Props): JSX.Element | null {
+export default function Wall(props: Props) {
 	const id = `${props.id}-${props.x}-${props.y}`;
 	const className = wallNameList[props.id];
 

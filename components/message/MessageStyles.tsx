@@ -1,6 +1,6 @@
 import css from 'styled-jsx/css';
 
-export default css`
+export const styles = css`
 	.container {
 		color: #fff;
 		font-family: "Courier New", Courier, monospace;

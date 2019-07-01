@@ -1,13 +1,12 @@
-import React from 'react';
 import { convertXYToCSSPosition } from '../../shared/conversions';
-import styles from './CollectableStyles';
+import { styles } from './CollectableStyles';
 
 type Props = Readonly<{
 	x: number;
 	y: number;
 }>;
 
-export default function Collectable(props: Props): JSX.Element {
+export default function Collectable(props: Props) {
 	const inlineStyle = convertXYToCSSPosition(props.x, props.y);
 
 	return (

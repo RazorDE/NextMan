@@ -1,6 +1,5 @@
-import React from 'react';
 import { getEntry } from '../../shared/dictionary';
-import styles from './MessageStyles';
+import { styles } from './MessageStyles';
 
 type Props = Readonly<{
 	areCollectablesLeft: boolean;
@@ -11,7 +10,7 @@ type Props = Readonly<{
 
 export default function Message(
 	{ areCollectablesLeft, hasJavaScript, isInitialStep, isPlayerAlive }: Props
-): JSX.Element | null {
+) {
 
 	if (areCollectablesLeft && !isInitialStep && isPlayerAlive) {
 		return null;

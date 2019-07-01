@@ -1,6 +1,6 @@
 import css from 'styled-jsx/css';
 
-export default css`
+export const styles = css`
 	a {
 		background-color: green;
 		border-radius: 30px;

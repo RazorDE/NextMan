@@ -11,11 +11,6 @@ export interface IDictionaryData {
 	[key: string]: string;
 }
 
-export interface ICSSPosition {
-	left: string;
-	top: string;
-}
-
 export interface ILevelData {
 	actorList: ILevelDataActor[];
 	collectableList: ITileXY[];
@@ -37,11 +32,6 @@ export interface ISettings {
 	defaultLanguage: string;
 	languageList: string[];
 	websiteTitle: string;
-}
-
-export interface ISize {
-	x: number;
-	y: number;
 }
 
 export interface ITileXY {

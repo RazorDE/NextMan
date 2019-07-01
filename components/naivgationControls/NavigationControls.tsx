@@ -1,4 +1,3 @@
-import React from 'react';
 import { EDirections } from '../../shared/enums';
 import Arrow from '../arrow/Arrow';
 
@@ -12,7 +11,7 @@ type Props = Readonly<{
 	y: number;
 }>;
 
-export default function NavigationControls(props: Props): JSX.Element {
+export default function NavigationControls(props: Props) {
 
 	const navigationArrowList = props.playerDirectionIdList.map(directionId => {
 		const actorDirectionIdList = [directionId].concat(props.npcDirectionIdList);
@@ -32,4 +31,3 @@ export default function NavigationControls(props: Props): JSX.Element {
 
 	return <>{navigationArrowList}</>;
 }
-

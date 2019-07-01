@@ -4,7 +4,7 @@ import settings from '../../shared/settings';
 
 const animationDuration: string = `${settings.animationDuration}ms`;
 
-export default css`
+export const styles = css`
 	@keyframes animation0 {
 		from, 0%, to, 99% {
 			height: 0;

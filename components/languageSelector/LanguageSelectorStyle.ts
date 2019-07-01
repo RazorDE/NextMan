@@ -1,22 +1,24 @@
 import css from 'styled-jsx/css';
 
-export default css`
-	a {
-		color: blue;
-		text-decoration: none;
-	}
-
+export const styles = css`
 	div {
 		margin: 5px;
 		text-align: right;
 		user-select: none;
 	}
 
-	.label {
+	span {
 		color: #fff;
 	}
+`;
 
-	.selected-language {
+export const stylesLanguageList = css`
+	a {
+		color: blue;
+		text-decoration: none;
+	}
+
+	span {
 		color: green;
 	}
 `;

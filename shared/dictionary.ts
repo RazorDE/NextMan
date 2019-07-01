@@ -5,7 +5,7 @@ import { isIncluded } from "./util";
 
 let currentDictionary: IDictionary | undefined;
 
-export function getEntry(id: string): string {
+export function getEntry(id: string) {
 	if (currentDictionary === undefined) {
 		return '<No dictionary available>';
 	}
@@ -19,11 +19,11 @@ export function getEntry(id: string): string {
 	return entry;
 }
 
-export function getLanguage(): string {
+export function getLanguage() {
 	return currentDictionary !== undefined ? currentDictionary.language : settings.defaultLanguage;
 }
 
-export async function loadDictionary(host: string, language?: string): Promise<IDictionary | undefined> {
+export async function loadDictionary(host: string, language?: string) {
 	language = language !== undefined ? language.toLowerCase().trim() : settings.defaultLanguage;
 	language = isIncluded(language, settings.languageList) ? language : settings.defaultLanguage;
 
@@ -34,12 +34,13 @@ export async function loadDictionary(host: string, language?: string): Promise<I
 	const response = await fetch(`http://${host}/static/json/dictionary-${language}.json`);
 
 	if (!response.ok) {
-		return undefined;
+		return;
 	}
 
-	return await response.json();
+	const dictionary: IDictionary = await response.json();
+	return dictionary;
 }
 
-export function setDictionary(dictionary: IDictionary | undefined): void {
+export function setDictionary(dictionary?: IDictionary) {
 	currentDictionary = dictionary;
 }

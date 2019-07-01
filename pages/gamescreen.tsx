@@ -1,4 +1,3 @@
-import React from 'react';
 import { NextPageContext } from 'next';
 import { convertStringifiedNumbersToArray } from '../shared/conversions';
 import { getEntry, setDictionary, loadDictionary } from '../shared/dictionary';
@@ -14,7 +13,7 @@ type Props = Readonly<{
 	dictionary?: IDictionary;
 }>;
 
-export default function GamescreenPage(props: Props): JSX.Element {
+export default function GamescreenPage(props: Props) {
 	setDictionary(props.dictionary);
 	return (
 		<>
@@ -29,7 +28,7 @@ export default function GamescreenPage(props: Props): JSX.Element {
 	);
 }
 
-GamescreenPage.getInitialProps = async function ({ req, query }: NextPageContext): Promise<Props> {
+GamescreenPage.getInitialProps = async function ({ req, query }: NextPageContext) {
 	const { ad, at, c, lang } = query;
 	const host = getHost(req);
 	const actorDirectionIdListInput = ad !== undefined && typeof ad === 'string'

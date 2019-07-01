@@ -1,7 +1,7 @@
 import css from 'styled-jsx/css';
 import { tileSize } from '../../shared/constants';
 
-export default css`
+export const styles = css`
 	div {
 		background-image: url(/static/images/chompermazetiles.png);
 		background-position-x: -288px;

@@ -2,13 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 import { getEntry, getLanguage } from '../../shared/dictionary';
 import settings from '../../shared/settings';
-import styles from './LanguageSelectorStyle';
+import { styles, stylesLanguageList } from './LanguageSelectorStyle';
 
-export default function LanguageSelector(): JSX.Element {
+export default function LanguageSelector() {
 	return (
 		<>
 			<div>
-				<span className="label">{getEntry('LanguageSelector.label')}:&nbsp;</span>
+				<span>{getEntry('LanguageSelector.label')}:&nbsp;</span>
 				<LanguageList />
 			</div>
 			<style jsx>{styles}</style>
@@ -16,21 +16,24 @@ export default function LanguageSelector(): JSX.Element {
 	);
 }
 
-function LanguageList(): JSX.Element {
+function LanguageList() {
 	const selectedLanguage = getLanguage();
+
 	const languageList = settings.languageList.map(language => {
-		return language !== selectedLanguage
-			? <>
-				<Link href={`?lang=${language}`} key={language}>
-					<a>{getEntry(`LanguageSelector.${language}`)}</a>
-				</Link>
-				<style jsx>{styles}</style>
-			</> : <>
-				<span className="selected-language" key={language}>
-					{getEntry(`LanguageSelector.${language}`)}
-				</span>
-				<style jsx>{styles}</style>
-			</>
+		return (
+			<React.Fragment key={language}>
+				{language !== selectedLanguage
+					? (
+						<Link href={`?lang=${language}`}>
+							<a>{getEntry(`LanguageSelector.${language}`)}</a>
+						</Link>
+					) : (
+						<span>{getEntry(`LanguageSelector.${language}`)}</span>
+					)
+				}
+				<style jsx>{stylesLanguageList}</style>
+			</React.Fragment>
+		);
 	});
 
 	return <>{languageList}</>;
