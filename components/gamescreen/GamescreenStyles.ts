@@ -1,7 +1,7 @@
 import css from 'styled-jsx/css';
 import { tileSize } from '../../shared/constants';
 
-export function styleFunc(levelSizeX: number, levelSizeY: number): string {
+export function styleFunc(levelSizeX: number, levelSizeY: number) {
 	return css`
 		.restart-button {
 			position: absolute;

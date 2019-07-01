@@ -20,6 +20,7 @@ export function isIncluded<Type>(needle: Type, haystack: Type[]) {
 	return false;
 }
 
-export function mutableClone<Type>(original: Type): Mutable<Type> {
-	return JSON.parse(JSON.stringify(original));
+export function mutableClone<Type>(original: Type) {
+	const clone: Mutable<Type> = JSON.parse(JSON.stringify(original));
+	return clone;
 }
