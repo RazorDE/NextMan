@@ -2,17 +2,13 @@
 
 ## Description
 A turn based pac man game using *React*, *Next.js*, *TypeScript* and *styled-jsx* (CSS-in-JS).
-
-This is just an exercise project for me to get familiar with *Next.js*.
+This project loads some images from the website: https://www.construct.net/en/tutorials/cloning-classics-pacman-171
+and is just an exercise project for me to get familiar with *Next.js*.
 
 ## How to build
-If you want to build this project you need to download the tileset images from this tutorial
-https://www.construct.net/en/tutorials/cloning-classics-pacman-171
-and copy them into the "static/images" folder of the project.
+If you want to build this project you need to have *Node.js* installed.
 
-You also gonna need to install Node.js.
-
-Once you're all set, perform the following steps:
+Once *Node.js* is installed, perform the following steps:
 1. Open the command line console inside the project directory (e.g. the terminal in Visual Studio Code).
 2. Enter *npm install*.
 3. Enter *npm run dev*.

@@ -71,7 +71,7 @@ export const styles = css`
 	}
 
 	.actor {
-		background-image: url(/static/images/chompersprites.png);
+		background-image: url(https://s1.construct.net/images/v680/uploads/articleuploadobject/0/images/13275/chompersprites.png);
 		height: ${tileSize.y}px;
 		width: ${tileSize.y}px;
 	}
