@@ -9,30 +9,32 @@ type Props = Readonly<{
 	viewport?: string;
 }>;
 
-export default function Head(props: Props) {
+const Head: React.FC<Props> = ({description, keywords, robots, subtitle, viewport}) => {
 	const title: string = settings.websiteTitle +
-		(props.subtitle !== undefined && props.subtitle.length > 0 ? ` - ${props.subtitle}` : '');
+		(subtitle !== undefined && subtitle.length > 0 ? ` - ${subtitle}` : '');
 
 	return (
 		<NextHead>
-			<MetaTag content={props.description} name="description" />
-			<MetaTag content={props.keywords} name="keywords" />
-			<MetaTag content={props.robots} name="robots" />
-			<MetaTag content={props.viewport} name="viewport" />
+			<MetaTag content={description} name="description" />
+			<MetaTag content={keywords} name="keywords" />
+			<MetaTag content={robots} name="robots" />
+			<MetaTag content={viewport} name="viewport" />
 			<title>{title}</title>
 		</NextHead>
 	);
-}
+};
+
+export default Head;
 
 type MetaTagProps = Readonly<{
 	content?: string;
 	name: string;
 }>;
 
-function MetaTag({ content, name }: MetaTagProps) {
+const MetaTag: React.FC<MetaTagProps> = ({ content, name }) => {
 	if (content === undefined || content.length < 1) {
 		return null;
 	}
 
 	return <meta content={content} key={name} name={name} />;
-}
+};

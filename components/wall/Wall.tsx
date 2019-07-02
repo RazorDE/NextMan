@@ -1,6 +1,31 @@
 import { convertXYToCSSPosition } from '../../shared/conversions';
 import { styles } from './WallStyles';
 
+type Props = Readonly<{
+	id: number;
+	x: number;
+	y: number;
+}>;
+
+const Wall: React.FC<Props> = ({id, x, y}) => {
+	const className = wallNameList[id];
+
+	if (className === undefined) {
+		return null;
+	}
+
+	const inlineStyle = convertXYToCSSPosition(x, y);
+
+	return (
+		<>
+			<div className={className} style={inlineStyle} />
+			<style jsx>{styles}</style>
+		</>
+	);
+};
+
+export default Wall;
+
 const wallNameList = [
 	'corner-bottom-left',
 	'corner-bottom-right',
@@ -19,27 +44,3 @@ const wallNameList = [
 	'vertical-center',
 	'vertical-top',
 ];
-
-type Props = Readonly<{
-	id: number;
-	x: number;
-	y: number;
-}>;
-
-export default function Wall(props: Props) {
-	const id = `${props.id}-${props.x}-${props.y}`;
-	const className = wallNameList[props.id];
-
-	if (className === undefined) {
-		return null;
-	}
-
-	const inlineStyle = convertXYToCSSPosition(props.x, props.y);
-
-	return (
-		<>
-			<div id={id} className={className} style={inlineStyle} />
-			<style jsx>{styles}</style>
-		</>
-	);
-}

@@ -8,9 +8,9 @@ type Props = Readonly<{
 	isPlayerAlive: boolean;
 }>;
 
-export default function Message(
-	{ areCollectablesLeft, hasJavaScript, isInitialStep, isPlayerAlive }: Props
-) {
+const Message: React.FC<Props> = (
+	{ areCollectablesLeft, hasJavaScript, isInitialStep, isPlayerAlive }
+) => {
 
 	if (areCollectablesLeft && !isInitialStep && isPlayerAlive) {
 		return null;
@@ -40,4 +40,6 @@ export default function Message(
 			<style jsx>{styles}</style>
 		</>
 	);
-}
+};
+
+export default Message;

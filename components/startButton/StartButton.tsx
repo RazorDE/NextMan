@@ -6,7 +6,7 @@ type Props = Readonly<{
 	isRestart: boolean;
 }>;
 
-export default function StartButton({ isRestart }: Props) {
+const StartButton: React.FC<Props> = ({ isRestart }) => {
 	const language = getLanguage();
 	const text = isRestart
 		? getEntry('StartButton.restart')
@@ -20,4 +20,6 @@ export default function StartButton({ isRestart }: Props) {
 			<style jsx>{styles}</style>
 		</>
 	);
-}
+};
+
+export default StartButton;

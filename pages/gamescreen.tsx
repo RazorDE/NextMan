@@ -1,4 +1,4 @@
-import { NextPageContext } from 'next';
+import { NextComponentType, NextPageContext } from 'next';
 import { convertStringifiedNumbersToArray } from '../shared/conversions';
 import { getEntry, setDictionary, loadDictionary } from '../shared/dictionary';
 import { IDictionary } from '../shared/interfaces';
@@ -13,22 +13,24 @@ type Props = Readonly<{
 	dictionary?: IDictionary;
 }>;
 
-export default function GamescreenPage(props: Props) {
-	setDictionary(props.dictionary);
+const GamescreenPage: NextComponentType<NextPageContext, Props, Props> = (
+	{actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput, dictionary}
+) => {
+	setDictionary(dictionary);
 	return (
 		<>
 			<Head robots="noindex, nofollow" subtitle={getEntry('Gamescreen.websiteSubtitle')} />
 			<Gamescreen
-				actorDirectionIdListInput={props.actorDirectionIdListInput}
-				actorTileIdListInput={props.actorTileIdListInput}
-				collectedIdListInput={props.collectedIdListInput}
+				actorDirectionIdListInput={actorDirectionIdListInput}
+				actorTileIdListInput={actorTileIdListInput}
+				collectedIdListInput={collectedIdListInput}
 				hasJavaScript={typeof window !== 'undefined'}
 			/>
 		</>
 	);
-}
+};
 
-GamescreenPage.getInitialProps = async function ({ req, query }: NextPageContext) {
+GamescreenPage.getInitialProps = async ({ req, query }) => {
 	const { ad, at, c, lang } = query;
 	const host = getHost(req);
 	const actorDirectionIdListInput = ad !== undefined && typeof ad === 'string'
@@ -51,4 +53,6 @@ GamescreenPage.getInitialProps = async function ({ req, query }: NextPageContext
 		collectedIdListInput,
 		dictionary,
 	};
-}
+};
+
+export default GamescreenPage;

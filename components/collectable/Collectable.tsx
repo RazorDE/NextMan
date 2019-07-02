@@ -6,8 +6,8 @@ type Props = Readonly<{
 	y: number;
 }>;
 
-export default function Collectable(props: Props) {
-	const inlineStyle = convertXYToCSSPosition(props.x, props.y);
+const Collectable: React.FC<Props> = ({x, y}) => {
+	const inlineStyle = convertXYToCSSPosition(x, y);
 
 	return (
 		<>
@@ -15,4 +15,6 @@ export default function Collectable(props: Props) {
 			<style jsx>{styles}</style>
 		</>
 	);
-}
+};
+
+export default Collectable;

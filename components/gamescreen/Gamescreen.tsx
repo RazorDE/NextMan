@@ -18,13 +18,6 @@ import StartButton from '../startButton/StartButton';
 import Wall from '../wall/Wall';
 import { styleFunc } from './GamescreenStyles';
 
-const levelSize = getLevelSize(initialLevelData);
-const maxCollectableId = initialLevelData.collectableList.length - 1;
-const maxDirectionId = directionList.length - 1;
-const maxTileId = (levelSize.x * levelSize.y) - 1;
-const styles = styleFunc(levelSize.x, levelSize.y);
-const wallCoordinates = getCoordinates(initialLevelData.wallList);
-
 type Props = Readonly<{
 	actorDirectionIdListInput: readonly number[];
 	actorTileIdListInput: readonly number[];
@@ -32,9 +25,9 @@ type Props = Readonly<{
 	hasJavaScript: boolean;
 }>;
 
-export default function Gamescreen(
-	{ actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput, hasJavaScript }: Props
-) {
+const Gamescreen: React.FC<Props> = (
+	{ actorDirectionIdListInput, actorTileIdListInput, collectedIdListInput, hasJavaScript }
+) => {
 	let collectedIdList: number[] = [];
 	let levelData = initialLevelData;
 
@@ -90,13 +83,15 @@ export default function Gamescreen(
 			<style jsx>{styles}</style>
 		</>
 	);
-}
+};
+
+export default Gamescreen;
 
 type ActorsProps = Readonly<{
 	actorList: ILevelDataActor[];
 }>;
 
-function Actors({ actorList }: ActorsProps) {
+const Actors: React.FC<ActorsProps> = ({ actorList }) => {
 	const actorElementList = actorList.map((actor, index) =>
 		<Actor
 			directionId={actor.d}
@@ -109,33 +104,33 @@ function Actors({ actorList }: ActorsProps) {
 	);
 
 	return <>{actorElementList}</>
-}
+};
 
 type CollectablesProps = Readonly<{
 	collectableList: ITileXY[];
 }>;
 
-function Collectables({ collectableList }: CollectablesProps) {
+const Collectables: React.FC<CollectablesProps> = ({ collectableList }) => {
 	const collectableElementList = collectableList.map(
 		(collectable, index) => <Collectable key={index} x={collectable.x} y={collectable.y} />
 	);
 
 	return <>{collectableElementList}</>
-}
+};
 
 type WallsProps = Readonly<{
 	wallList: ILevelDataWall[];
 }>;
 
-function Walls({ wallList }: WallsProps) {
+const Walls: React.FC<WallsProps> = ({ wallList }) => {
 	const wallsElementList = wallList.map(
 		(wall, index) => <Wall id={wall.id} key={index} x={wall.x} y={wall.y} />
 	);
 
 	return <>{wallsElementList}</>
-}
+};
 
-function createNpcDirectionIdList(actorList: ILevelDataActor[], wallCoordinates: ICoordinates) {
+const createNpcDirectionIdList = (actorList: ILevelDataActor[], wallCoordinates: ICoordinates) => {
 	const directionQuery: number[] = [];
 
 	for (let i = 1, lengthI = actorList.length; i < lengthI; i++) {
@@ -144,11 +139,9 @@ function createNpcDirectionIdList(actorList: ILevelDataActor[], wallCoordinates:
 	}
 
 	return directionQuery;
-}
+};
 
-function getActorDirectionIdList(tile: ITileXY, coordinates: ICoordinates) {
-	const { x, y } = tile;
-
+const getActorDirectionIdList = ({x, y}: ITileXY, coordinates: ICoordinates) => {
 	const directionList: number[] = [];
 
 	if (y < levelSize.y - 1 && coordinates[`${x}-${y + 1}`] !== true) {
@@ -168,9 +161,9 @@ function getActorDirectionIdList(tile: ITileXY, coordinates: ICoordinates) {
 	}
 
 	return directionList;
-}
+};
 
-function getCurrentCollectedIdList(collectedIdList: readonly number[], player: ILevelDataActor) {
+const getCurrentCollectedIdList = (collectedIdList: readonly number[], player: ILevelDataActor) => {
 	const currentCollectedIdList = mutableClone(collectedIdList);
 	const { collectableList } = initialLevelData;
 
@@ -195,13 +188,13 @@ function getCurrentCollectedIdList(collectedIdList: readonly number[], player: I
 	}
 
 	return currentCollectedIdList;
-}
+};
 
-function getCurrentLevelDataFromGameState(
+const getCurrentLevelDataFromGameState = (
 	actorDirectionIdList: readonly number[],
 	actorTileIdList: readonly number[],
 	collectedIdList: readonly number[]
-) {
+) => {
 	const levelData = mutableClone(initialLevelData);
 	const { actorList, collectableList } = levelData;
 
@@ -239,9 +232,9 @@ function getCurrentLevelDataFromGameState(
 	}
 
 	return levelData;
-}
+};
 
-function getCoordinates(list: ITileXY[]) {
+const getCoordinates = (list: ITileXY[]) => {
 	const coordinates: ICoordinates = {};
 
 	for (let i = 0, lengthI = list.length; i < lengthI; i++) {
@@ -250,9 +243,9 @@ function getCoordinates(list: ITileXY[]) {
 	}
 
 	return coordinates;
-}
+};
 
-function getLevelSize(levelData: ILevelData) {
+const getLevelSize = (levelData: ILevelData) => {
 	const combinedList = levelData.collectableList
 		.concat(levelData.wallList)
 		.concat(levelData.actorList);
@@ -266,9 +259,9 @@ function getLevelSize(levelData: ILevelData) {
 	}
 
 	return { x: x + 1, y: y + 1 };
-}
+};
 
-function getQueryParametersFromList(list: ITileXY[]) {
+const getQueryParametersFromList = (list: ITileXY[]) => {
 	const parameterList: number[] = [];
 
 	for (let i = 0, lengthI = list.length; i < lengthI; i++) {
@@ -276,13 +269,13 @@ function getQueryParametersFromList(list: ITileXY[]) {
 	}
 
 	return parameterList;
-}
+};
 
-function isGameStateValid(
+const isGameStateValid = (
 	actorDirectionIdList: readonly number[],
 	actorTileIdList: readonly number[],
 	collectedIdList: readonly number[],
-) {
+) => {
 	let isValid = actorDirectionIdList.length === actorTileIdList.length;
 
 	if (isValid) {
@@ -319,9 +312,9 @@ function isGameStateValid(
 	}
 
 	return isValid;
-}
+};
 
-function isPlayerAlive(actorList: ILevelDataActor[], directionList: number[]) {
+const isPlayerAlive = (actorList: ILevelDataActor[], directionList: number[]) => {
 	let isAlive = directionList.length > 0;
 
 	if (isAlive) {
@@ -336,4 +329,11 @@ function isPlayerAlive(actorList: ILevelDataActor[], directionList: number[]) {
 	}
 
 	return isAlive;
-}
+};
+
+const levelSize = getLevelSize(initialLevelData);
+const maxCollectableId = initialLevelData.collectableList.length - 1;
+const maxDirectionId = directionList.length - 1;
+const maxTileId = (levelSize.x * levelSize.y) - 1;
+const styles = styleFunc(levelSize.x, levelSize.y);
+const wallCoordinates = getCoordinates(initialLevelData.wallList);

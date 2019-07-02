@@ -11,23 +11,27 @@ type Props = Readonly<{
 	y: number;
 }>;
 
-export default function NavigationControls(props: Props) {
+const NavigationControls: React.FC<Props> = (
+	{ actorTileIdList, collectedIdList, isDelayed, npcDirectionIdList, playerDirectionIdList, x, y }
+) => {
 
-	const navigationArrowList = props.playerDirectionIdList.map(directionId => {
-		const actorDirectionIdList = [directionId].concat(props.npcDirectionIdList);
-		const x = props.x + (directionId === EDirections.LEFT ? -1 : directionId === EDirections.RIGHT ? 1 : 0);
-		const y = props.y + (directionId === EDirections.UP ? -1 : directionId === EDirections.DOWN ? 1 : 0);
+	const navigationArrowList = playerDirectionIdList.map(directionId => {
+		const actorDirectionIdList = [directionId].concat(npcDirectionIdList);
+		const arrowX = x + (directionId === EDirections.LEFT ? -1 : directionId === EDirections.RIGHT ? 1 : 0);
+		const arrowY = y + (directionId === EDirections.UP ? -1 : directionId === EDirections.DOWN ? 1 : 0);
 
 		return <Arrow
 			actorDirectionIdList={actorDirectionIdList}
-			actorTileIdList={props.actorTileIdList}
-			collectedIdList={props.collectedIdList}
-			isDelayed={props.isDelayed}
+			actorTileIdList={actorTileIdList}
+			collectedIdList={collectedIdList}
+			isDelayed={isDelayed}
 			key={directionId}
-			x={x}
-			y={y}
+			x={arrowX}
+			y={arrowY}
 		/>;
 	});
 
 	return <>{navigationArrowList}</>;
-}
+};
+
+export default NavigationControls;

@@ -3,7 +3,7 @@ import LanguageSelector from '../languageSelector/LanguageSelector';
 import StartButton from '../startButton/StartButton';
 import { styles } from './HomeStyles';
 
-export default function Home() {
+const Home: React.FC = () => {
 	return (
 		<>
 			<div className="viewport">
@@ -18,3 +18,5 @@ export default function Home() {
 		</>
 	);
 }
+
+export default Home;

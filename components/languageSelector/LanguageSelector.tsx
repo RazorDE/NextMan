@@ -4,7 +4,7 @@ import { getEntry, getLanguage } from '../../shared/dictionary';
 import settings from '../../shared/settings';
 import { styles, stylesLanguageList } from './LanguageSelectorStyle';
 
-export default function LanguageSelector() {
+const LanguageSelector: React.FC = () => {
 	return (
 		<>
 			<div>
@@ -14,9 +14,11 @@ export default function LanguageSelector() {
 			<style jsx>{styles}</style>
 		</>
 	);
-}
+};
 
-function LanguageList() {
+export default LanguageSelector;
+
+const LanguageList: React.FC = () => {
 	const selectedLanguage = getLanguage();
 
 	const languageList = settings.languageList.map(language => {
@@ -37,4 +39,4 @@ function LanguageList() {
 	});
 
 	return <>{languageList}</>;
-}
+};
