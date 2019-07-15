@@ -6,7 +6,7 @@ import Head from '../components/head/Head';
 import Home from '../components/home/Home';
 
 type Props = Readonly<{
-	dictionary?: IDictionary;
+	dictionary?: Readonly<IDictionary>;
 }>;
 
 const IndexPage: NextComponentType<NextPageContext, Props, Props> = ({dictionary}) => {

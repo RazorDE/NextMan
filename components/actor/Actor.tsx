@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { directionList } from '../../shared/constants';
 import { convertXYToCSSPosition } from '../../shared/conversions';
 import { EDirections } from '../../shared/enums';
@@ -21,57 +21,51 @@ type Props = Readonly<{
 	y: number;
 }>;
 
-type State = Readonly<{
-	animationTriggerId: number;
-}>;
+const Actor: React.FC<Props> = (props) => {
+	const { directionId, id, isMoving, x, y } = props;
+	const [animationTriggerId, setAnimationTriggerId] = useState(0);
+	const areInitialProps = useRef(true);
+	const actorName = actorNameList[id];
+	const directionName = directionList[directionId];
 
-export default class Actor extends React.PureComponent<Props, State> {
-	constructor(props: Props) {
-		super(props);
-		this.state = { animationTriggerId: 0 };
-	}
-
-	public componentDidUpdate(prevProps: Props) {
-		const { props, state } = this;
-
-		if (props !== prevProps) {
-			const animationTriggerId = (state.animationTriggerId + 1) % 2;
-			this.setState({ animationTriggerId });
+	useEffect(() => {
+		if (areInitialProps.current) {
+			// Don't do anything in the initial call except updating the reference
+			areInitialProps.current = false;
+		} else {
+			// Switch between 0 and 1 in case the same animation has to be played again
+			setAnimationTriggerId((animationTriggerId + 1) % 2);
 		}
+	}, [props]);
+
+	if (
+		actorName === undefined ||
+		actorName.length < 1 ||
+		directionName === undefined ||
+		directionName.length < 1
+	) {
+		return null;
 	}
 
-	public render() {
-		const { props, state } = this;
-		const actorName = actorNameList[props.id];
-		const directionName = directionList[props.directionId];
+	const inlineStyle = isMoving
+		? convertXYToCSSPosition(
+			x + (directionId === EDirections.LEFT ? 1 : directionId === EDirections.RIGHT ? -1 : 0),
+			y + (directionId === EDirections.DOWN ? -1 : directionId === EDirections.UP ? 1 : 0),
+		)
+		: convertXYToCSSPosition(x, y);
 
-		if (
-			actorName === undefined ||
-			actorName.length < 1 ||
-			directionName === undefined ||
-			directionName.length < 1
-		) {
-			return null;
-		}
+	const classNameDirection =
+		`direction ${isMoving ? `${directionName}-${animationTriggerId}` : 'none'}`;
+	const classNameSprite = `actor ${actorName} ${directionName}`;
 
-		const inlineStyle = props.isMoving
-			? convertXYToCSSPosition(
-				props.x + (props.directionId === EDirections.LEFT ? 1 : props.directionId === EDirections.RIGHT ? -1 : 0),
-				props.y + (props.directionId === EDirections.DOWN ? -1 : props.directionId === EDirections.UP ? 1 : 0),
-			)
-			: convertXYToCSSPosition(props.x, props.y);
+	return (
+		<>
+			<div className={classNameDirection} style={inlineStyle}>
+				<div className={classNameSprite} />
+			</div>
+			<style jsx>{styles}</style>
+		</>
+	);
+};
 
-		const classNameDirection =
-			`direction ${props.isMoving ? `${directionName}-${state.animationTriggerId}` : 'none'}`;
-		const classNameSprite = `actor ${actorName} ${directionName}`;
-
-		return (
-			<>
-				<div className={classNameDirection} style={inlineStyle}>
-					<div className={classNameSprite} />
-				</div>
-				<style jsx>{styles}</style>
-			</>
-		);
-	}
-}
+export default Actor;

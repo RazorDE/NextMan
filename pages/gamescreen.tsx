@@ -10,7 +10,7 @@ type Props = Readonly<{
 	actorDirectionIdListInput: readonly number[];
 	actorTileIdListInput: readonly number[];
 	collectedIdListInput: readonly number[];
-	dictionary?: IDictionary;
+	dictionary?: Readonly<IDictionary>;
 }>;
 
 const GamescreenPage: NextComponentType<NextPageContext, Props, Props> = (
