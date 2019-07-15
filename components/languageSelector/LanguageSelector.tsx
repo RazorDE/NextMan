@@ -21,22 +21,18 @@ export default LanguageSelector;
 const LanguageList: React.FC = () => {
 	const selectedLanguage = getLanguage();
 
-	const languageList = settings.languageList.map(language => {
-		return (
-			<React.Fragment key={language}>
-				{language !== selectedLanguage
-					? (
-						<Link href={`?lang=${language}`}>
-							<a>{getEntry(`LanguageSelector.${language}`)}</a>
-						</Link>
-					) : (
-						<span>{getEntry(`LanguageSelector.${language}`)}</span>
-					)
-				}
-				<style jsx>{stylesLanguageList}</style>
-			</React.Fragment>
-		);
-	});
-
-	return <>{languageList}</>;
+	return (
+		<>
+			{settings.languageList.map(language => {
+				return language !== selectedLanguage ? (
+					<Link href={`?lang=${language}`} key={language}>
+						<a>{getEntry(`LanguageSelector.${language}`)}</a>
+					</Link>
+				) : (
+						<span key={language}>{getEntry(`LanguageSelector.${language}`)}</span>
+					);
+			})}
+			<style jsx>{stylesLanguageList}</style>
+		</>
+	);
 };
