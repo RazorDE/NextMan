@@ -28,7 +28,7 @@ export const styles = css`
 	}
 
 	.arrow {
-		background-image: url(/static/images/arrowsprite.png);
+		background-image: url(/images/arrowsprite.png);
 		height: ${tileSize.y}px;
 		opacity: 0.5;
 		position: absolute;

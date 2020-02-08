@@ -12,7 +12,7 @@ type Props = Readonly<{
 const IndexPage: NextComponentType<NextPageContext, Props, Props> = ({dictionary}) => {
 	setDictionary(dictionary);
 	return (<>
-		<Head robots="index, nofollow" subtitle={getEntry("Home.websiteSubtitle")} />
+		<Head robots="index, nofollow" subtitle={getEntry('Home.websiteSubtitle')} />
 		<Home />
 	</>);
 };

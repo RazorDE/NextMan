@@ -1,4 +1,4 @@
-import { ISettings } from "./interfaces";
+import { ISettings } from './interfaces';
 
-const settings: ISettings = require('../static/json/settings.json');
+const settings: ISettings = require('../public/json/settings.json');
 export default settings;

@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-unfetch';
-import { IDictionary } from "./interfaces";
-import settings from "./settings";
-import { isIncluded } from "./util";
+import { IDictionary } from './interfaces';
+import settings from './settings';
+import { isIncluded } from './util';
 
 let currentDictionary: IDictionary | undefined;
 
@@ -31,7 +31,7 @@ export async function loadDictionary(host: string, language?: string) {
 		return currentDictionary;
 	}
 
-	const response = await fetch(`http://${host}/static/json/dictionary-${language}.json`);
+	const response = await fetch(`http://${host}/json/dictionary-${language}.json`);
 
 	if (!response.ok) {
 		return;

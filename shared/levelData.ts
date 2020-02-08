@@ -1,4 +1,4 @@
-import { ILevelData } from "./interfaces";
+import { ILevelData } from './interfaces';
 
-const levelData: ILevelData = require('../static/json/level.json');
+const levelData: ILevelData = require('../public/json/level.json');
 export default levelData;
