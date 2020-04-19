@@ -3,7 +3,7 @@ import { tileSize } from '../../shared/constants';
 
 export const styles = css`
 	div {
-		background-image: url(https://s1.construct.net/images/v680/uploads/articleuploadobject/0/images/13274/chompermazetiles.png);
+		background-image: url(https://construct-static.com/images/v780/uploads/articleuploadobject/0/images/13274/chompermazetiles.png);
 		height: ${tileSize.y}px;
 		position: absolute;
 		width: ${tileSize.y}px;
